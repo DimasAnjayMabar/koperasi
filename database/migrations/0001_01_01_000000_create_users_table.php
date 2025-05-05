@@ -28,6 +28,7 @@ return new class extends Migration
             
             $table->rememberToken(); // Keep if using Laravel's remember me feature
             $table->timestamps();
+            $table->string('profile_photo_url')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

@@ -39,6 +39,9 @@
                     <input type="password" id="confirm-password" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="••••••••" required>
                 </div>
 
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload profile picture</label>
+                <input id="profile" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
+
                 <!-- Terms -->
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
@@ -64,33 +67,52 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const registerForm = document.getElementById('register-form');
-                
+
                 registerForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    
+
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const file = document.getElementById('profile').files[0];
+
                     try {
-                        // Get form values
-                        const email = document.getElementById('email').value;
-                        const password = document.getElementById('password').value;
-                        const name = document.getElementById('name').value;
+                        // Define the routes for redirection
+                        const verifySuccessRoute = "{{ route('verify-success') }}";
+                        const verifyEmailRoute = "{{ route('verify-email') }}";
 
-                        // Debug: Check if supabase exists
-                        console.log(window.supabase); // Should show client object
-
-                        // Call Supabase
-                        const { data, error } = await supabase.auth.signUp({
+                        // Step 1: Supabase signup
+                        const { data: signupData, error: signupError } = await supabase.auth.signUp({
                             email,
                             password,
                             options: {
-                                data: {
-                                    name: name  // Store name in user_metadata
-                                },
-                                emailRedirectTo: 'http://localhost:8000/verify-success'
+                                emailRedirectTo: verifySuccessRoute // Directing to verify email page
                             }
                         });
 
-                        if (error) throw error;
-                        window.location.href = '/verify-email';
+                        if (signupError) throw signupError;
+
+                        const user = signupData?.user;
+                        if (!user) throw new Error('Supabase registration failed.');
+
+                        // Step 2: Send user info + file to your Laravel backend (Once email is verified)
+                        const formData = new FormData();
+                        formData.append('id', user.id); // Supabase UUID
+                        formData.append('email', email);
+                        formData.append('name', name);
+                        formData.append('profile', file);
+
+                        // Send the user data to your backend (optional based on your requirements)
+                        const backendResponse = await fetch('/register/new-user', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            }
+                        });
+
+                        // Step 3: Redirect to the verify-email page after registration
+                        window.location.href = verifyEmailRoute;  // Redirect user to verify email page
                     } catch (error) {
                         alert('Registration failed: ' + error.message);
                         console.error(error);
@@ -99,4 +121,5 @@
             });
         </script>
     @endpush
+
 @endsection

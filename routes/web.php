@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
+use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Monolog\Registry;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,3 +31,5 @@ Route::post('/register/new-user', [RegisterController::class, 'register']);
 Route::get('/dashboard', function() {
     return view('admin.dashboard');
 })->name('dashboard');
+
+Route::get('/register/get-user', [RegisterController::class, 'checkUserExist']);
