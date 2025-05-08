@@ -12,32 +12,55 @@
                     Sign in to your account
                 </h1>
             </div>
-
-            <form class="space-y-4 md:space-y-6" action="#" id="login-form">
+            
+            <form class="space-y-4 md:space-y-6 max-w-sm mx-auto" action="#" id="login-form">
+                <!-- Email Field -->
                 <div>
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                    <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
+                    <input type="email" name="email" id="email"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="name@company.com" required>
+                    <p id="email-error" class="mt-2 text-sm text-red-600 dark:text-red-500 hidden">
+                        <span class="font-medium">Oops!</span> Please enter a valid email.
+                    </p>
                 </div>
+
+                <!-- Password Field -->
                 <div>
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-start">
-                        <div class="flex items-center h-5">
-                        <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
-                        </div>
-                        <div class="ml-3 text-sm">
-                        <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
-                        </div>
+                    <div class="flex items-center relative">
+                        <input type="password" name="password" id="password" placeholder="••••••••"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required>
+                        <button type="button" id="toggle-password"
+                            class="ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
                     </div>
+                    <p id="password-error" class="mt-2 text-sm text-red-600 dark:text-red-500 hidden">
+                        <span class="font-medium">Oops!</span> Invalid password.
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-between">
                     <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
                 </div>
-                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign In</button>
+            
+                <button type="submit"
+                    class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign In</button>
+            
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Don’t have an account yet? <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</a>
+                    Don’t have an account yet?
+                    <a href="{{ route('register') }}"
+                        class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</a>
                 </p>
-            </form>
+            </form>            
         </div>
     </section>
 
@@ -45,24 +68,52 @@
         <script>
             document.getElementById('login-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-
+        
+                const emailInput = document.getElementById('email');
+                const passwordInput = document.getElementById('password');
+                const emailError = document.getElementById('email-error');
+                const passwordError = document.getElementById('password-error');
+        
+                // Reset error states
+                emailInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
+                emailError.classList.add('hidden');
+                passwordInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
+                passwordError.classList.add('hidden');
+        
+                const email = emailInput.value;
+                const password = passwordInput.value;
+        
                 try {
                     const { error } = await supabase.auth.signInWithPassword({
                         email,
                         password
                     });
-
+        
                     if (error) throw error;
-                    
-                    // Redirect to dashboard after successful login
+        
                     window.location.href = "{{ route('dashboard') }}";
                 } catch (error) {
-                    alert('Login failed: ' + error.message);
                     console.error(error);
+                    if (error.message.toLowerCase().includes('email')) {
+                        emailInput.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
+                        emailError.classList.remove('hidden');
+                    } else {
+                        passwordInput.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
+                        passwordError.classList.remove('hidden');
+                    }
                 }
+            });
+        </script>    
+
+        <script>
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                eyeIcon.classList.toggle('text-blue-600');
             });
         </script>
     @endpush

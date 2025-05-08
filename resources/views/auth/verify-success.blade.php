@@ -49,30 +49,19 @@
                 }
 
                 try {
-                    // Step 1: Check if the user already exists in MySQL
-                    const response = await fetch(`/register/get-user/exists?id=${user.id}`);
-                    const data = await response.json();
+                    const formData = {
+                        id: user.id, 
+                        email_verified_at: new Date().toString()
+                    };
 
-                    if (!data.exists) {
-                        // If the user does not exist, proceed to save them
-                        const formData = {
-                            id: user.id,
-                            email: user.email,
-                            name: user.user_metadata.full_name,  // Assuming 'full_name' is in user_metadata
-                            verified_at: new Date().toISOString()  // Set email_verified_at here
-                        };
-
-                        // Step 2: Send user info to backend to save in MySQL
-                        await fetch('/register/new-user', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                            },
-                            body: JSON.stringify(formData)
-                        });
-                    }
-
+                    await fetch('/register/update-user', {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify(formData)
+                    });
                     // Step 3: Redirect to dashboard after registration is complete
                     window.location.href = '/';
                 } catch (err) {

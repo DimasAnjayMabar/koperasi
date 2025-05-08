@@ -30,22 +30,36 @@
         </div>
     </section>
 
-    <!-- Add Supabase JavaScript -->
-    <script>
-        async function resendVerificationEmail() {
-            const { error } = await supabase.auth.resendEmailVerification();
-            const statusEl = document.getElementById('verification-status');
-            
-            if (error) {
-                statusEl.textContent = 'Failed to resend. Please try again.';
-                statusEl.classList.remove('text-green-600', 'dark:text-green-400');
-                statusEl.classList.add('text-red-600', 'dark:text-red-400');
-            } else {
-                statusEl.textContent = 'A new verification link has been sent to your email address.';
-                statusEl.classList.remove('text-red-600', 'dark:text-red-400');
-                statusEl.classList.add('text-green-600', 'dark:text-green-400');
+    @push('scripts')
+        <!-- Add Supabase JavaScript -->
+        <script>
+            async function resendVerificationEmail() {
+                // const user = supabase.auth.user(); // For Supabase v1
+                const { data: { user } } = await supabase.auth.getUser();
+
+                const statusEl = document.getElementById('verification-status');
+
+                if (!user) {
+                    statusEl.textContent = 'You must be signed in to resend the verification email.';
+                    statusEl.classList.remove('text-green-600', 'dark:text-green-400');
+                    statusEl.classList.add('text-red-600', 'dark:text-red-400');
+                    statusEl.classList.remove('hidden');
+                    return;
+                }
+
+                const { error } = await supabase.auth.updateUser({ email: user.email });
+
+                if (error) {
+                    statusEl.textContent = 'Failed to resend. Please try again.';
+                    statusEl.classList.remove('text-green-600', 'dark:text-green-400');
+                    statusEl.classList.add('text-red-600', 'dark:text-red-400');
+                } else {
+                    statusEl.textContent = 'A new verification link has been sent to your email address.';
+                    statusEl.classList.remove('text-red-600', 'dark:text-red-400');
+                    statusEl.classList.add('text-green-600', 'dark:text-green-400');
+                }
+                statusEl.classList.remove('hidden');
             }
-            statusEl.classList.remove('hidden');
-        }
-    </script>
+        </script>
+    @endpush
 @endsection

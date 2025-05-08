@@ -32,4 +32,4 @@ Route::get('/dashboard', function() {
     return view('admin.dashboard');
 })->name('dashboard');
 
-Route::get('/register/get-user', [RegisterController::class, 'checkUserExist']);
+Route::post('/register/update-user', [RegisterController::class, 'checkUserExist']);
