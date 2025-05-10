@@ -81,34 +81,38 @@
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const { data: { user }, error } = await window.supabase.auth.getUser();
-
+        
                 if (!user || error) {
-                    // Redirect to welcome page if not authenticated
+                    // Not authenticated — redirect to welcome
                     window.location.href = '/';
                     return;
                 }
-
-                // Show user email
+        
+                // Save auth session state
+                sessionStorage.setItem('loggedIn', 'true');
+        
+                // Prevent back button
+                history.pushState(null, null, window.location.href);
+                window.addEventListener('popstate', function (event) {
+                    if (sessionStorage.getItem('loggedIn') === 'true') {
+                        history.pushState(null, null, window.location.href);
+                    }
+                });
+        
+                // Set user email
                 document.getElementById('user-email').textContent = user.email;
-
-                // Prevent back navigation to welcome
-                history.pushState(null, '', location.href);
-                window.onpopstate = () => history.pushState(null, '', location.href);
-
-                // Add sign-out functionality
+        
+                // Sign-out handling
                 const signOut = document.getElementById('sign-out');
                 if (signOut) {
                     signOut.addEventListener('click', async (event) => {
                         event.preventDefault();
-                        await logout();
+                        await window.supabase.auth.signOut();
+                        sessionStorage.removeItem('loggedIn'); // Clear session flag
+                        window.location.href = '/';
                     });
                 }
             });
-
-            async function logout() {
-                await window.supabase.auth.signOut();
-                window.location.href = '/';
-            }
-        </script>
+        </script>    
     @endpush
 @endsection

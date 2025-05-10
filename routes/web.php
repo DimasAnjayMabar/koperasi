@@ -33,3 +33,11 @@ Route::get('/dashboard', function() {
 })->name('dashboard');
 
 Route::post('/register/update-user', [RegisterController::class, 'checkUserExist']);
+
+Route::get('/find-email', function () {
+    return view('auth.find-email');
+})->name('find-email');
+
+Route::get('/reset-password', function() {
+    return view('auth.forgot-password');
+});

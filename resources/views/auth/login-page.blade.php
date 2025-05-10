@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
+                    <a href="{{ route('find-email') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
                 </div>
             
                 <button type="submit"
@@ -114,6 +114,17 @@
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
                 eyeIcon.classList.toggle('text-blue-600');
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const { data: { user }, error } = await window.supabase.auth.getUser();
+
+                if (user) {
+                    // Already logged in, redirect to dashboard
+                    window.location.href = '/dashboard';
+                }
             });
         </script>
     @endpush
