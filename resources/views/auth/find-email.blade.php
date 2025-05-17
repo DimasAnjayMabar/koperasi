@@ -39,32 +39,54 @@
     </section>
 
     @push('scripts')
-    <script type="module">
-        const form = document.getElementById('verify-form');
-        const status = document.getElementById('verification-status');
-        const errorMsg = document.getElementById('email-error');
+        <script type="module">
+            const form = document.getElementById('verify-form');
+            const status = document.getElementById('verification-status');
+            const errorMsg = document.getElementById('email-error');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = form.email.value;
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = form.email.value;
 
-            const { error } = await supabase.auth.signInWithOtp({
-                email,
-                options: {
-                    emailRedirectTo: window.location.origin + '/reset-password'
+                // Validate email format first
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    errorMsg.textContent = 'Please enter a valid email address.';
+                    errorMsg.classList.remove('hidden');
+                    status.classList.add('hidden');
+                    return;
+                }
+
+                try {
+                    const { error } = await supabase.auth.resetPasswordForEmail(
+                        email, // First parameter - the email string
+                        {      // Second parameter - options object
+                            redirectTo: window.location.origin + '/reset-password'
+                        }
+                    );
+
+                    if (error) {
+                        errorMsg.textContent = `Error: ${error.message}`;
+                        errorMsg.classList.remove('hidden');
+                        status.classList.add('hidden');
+                    } else {
+                        // Save email to localStorage before redirecting
+                        localStorage.setItem('passwordResetEmail', email);
+                        
+                        errorMsg.classList.add('hidden');
+                        status.textContent = '✅ Check your inbox for a password reset link.';
+                        status.classList.remove('hidden');
+                        
+                        // Optional: Redirect after a short delay to let user see the success message
+                        setTimeout(() => {
+                            window.location.href = "/verify-password";
+                        }, 2000);
+                    }
+                } catch (err) {
+                    errorMsg.textContent = `Unexpected error: ${err.message}`;
+                    errorMsg.classList.remove('hidden');
+                    status.classList.add('hidden');
                 }
             });
-
-            if (error) {
-                errorMsg.textContent = `Error: ${error.message}`;
-                errorMsg.classList.remove('hidden');
-                status.classList.add('hidden');
-            } else {
-                errorMsg.classList.add('hidden');
-                status.textContent = '✅ Check your inbox for a password reset link.';
-                status.classList.remove('hidden');
-            }
-        });
-    </script>
+        </script>
     @endpush
 @endsection

@@ -12,14 +12,11 @@
                     Verify Your Email Address
                 </h1>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                    We’ve sent a verification link to your email.
+                    We’ve sent a verification link to your email. Didn't receive it?
                 </p>
 
-                <!-- Supabase status message (updated via JavaScript) -->
-                <div id="verification-status" class="hidden mt-4 text-sm text-green-600 dark:text-green-400"></div>
+                <div id="verification-status" class="hidden mt-4 text-sm"></div>
             </div>
-
-            <!-- Replace Laravel form with Supabase JavaScript -->
             <button 
                 id="resend-button" 
                 onclick="resendVerificationEmail()" 
@@ -31,35 +28,52 @@
     </section>
 
     @push('scripts')
-        <!-- Add Supabase JavaScript -->
         <script>
             async function resendVerificationEmail() {
-                // const user = supabase.auth.user(); // For Supabase v1
-                const { data: { user } } = await supabase.auth.getUser();
+            const statusEl = document.getElementById('verification-status');
+            const resendBtn = document.getElementById('resend-button');
 
-                const statusEl = document.getElementById('verification-status');
+            // UI Handling
+            resendBtn.disabled = true;
+            resendBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            setTimeout(() => {
+                resendBtn.disabled = false;
+                resendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }, 60000);
 
-                if (!user) {
-                    statusEl.textContent = 'You must be signed in to resend the verification email.';
-                    statusEl.classList.remove('text-green-600', 'dark:text-green-400');
-                    statusEl.classList.add('text-red-600', 'dark:text-red-400');
+            try {
+                // First, try to get email from localStorage
+                let email = localStorage.getItem('pending_verification_email');
+
+                if (!email) {
+                    statusEl.textContent = 'Email not found. Please register again.';
+                    statusEl.className = 'text-red-600 dark:text-red-400';
                     statusEl.classList.remove('hidden');
                     return;
                 }
 
-                const { error } = await supabase.auth.updateUser({ email: user.email });
+                // Use signUp to resend verification email
+                const { error } = await supabase.auth.resend({
+                    type: 'signup',
+                    email,
+                    options: {
+                        emailRedirectTo: window.location.origin + '{{ route('verify-success') }}'
+                    }
+                });
 
-                if (error) {
-                    statusEl.textContent = 'Failed to resend. Please try again.';
-                    statusEl.classList.remove('text-green-600', 'dark:text-green-400');
-                    statusEl.classList.add('text-red-600', 'dark:text-red-400');
-                } else {
-                    statusEl.textContent = 'A new verification link has been sent to your email address.';
-                    statusEl.classList.remove('text-red-600', 'dark:text-red-400');
-                    statusEl.classList.add('text-green-600', 'dark:text-green-400');
-                }
+                if (error) throw error;
+
+                statusEl.textContent = `Verification email sent to ${email}`;
+                statusEl.className = 'text-green-600 dark:text-green-400';
+                localStorage.removeItem('pending_verification_email');
+            } catch (error) {
+                console.error('Resend error:', error);
+                statusEl.textContent = error.message || 'Failed to resend verification email';
+                statusEl.className = 'text-red-600 dark:text-red-400';
+            } finally {
                 statusEl.classList.remove('hidden');
             }
+        }
         </script>
     @endpush
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserController;
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,4 +41,10 @@ Route::get('/find-email', function () {
 
 Route::get('/reset-password', function() {
     return view('auth.forgot-password');
+});
+
+Route::post('/get-user', [UserController::class, 'getInfo']);
+
+Route::get('/verify-password', function() {
+    return view('auth.verify-password');
 });

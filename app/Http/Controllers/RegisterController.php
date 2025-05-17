@@ -16,13 +16,13 @@ class RegisterController extends Controller
             'id' => 'required|string|unique:users,id',
             'email' => 'required|email|unique:users,email',
             'name' => 'required|string',
-            'profile' => 'nullable|image|max:2048',
+            'profile_photo_url' => 'nullable|image|max:2048',
         ]);
 
         // ✅ Handle optional profile upload
         $path = null;
-        if ($request->hasFile('profile')) {
-            $path = $request->file('profile')->store("profiles/{$request->id}", 'public');
+        if ($request->hasFile('profile_photo_url')) {
+            $path = $request->file('profile_photo_url')->store("profiles/{$request->id}", 'public');
         }
 
         // ✅ Save user
