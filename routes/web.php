@@ -2,10 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
-use Faker\Guesser\Name;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Monolog\Registry;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,7 +27,7 @@ Route::get('/verify-success', function() {
 Route::post('/register/new-user', [RegisterController::class, 'register']);
 
 Route::get('/dashboard', function() {
-    return view('admin.dashboard');
+    return view('admin.navbar');
 })->name('dashboard');
 
 Route::post('/register/update-user', [RegisterController::class, 'checkUserExist']);
@@ -47,4 +44,12 @@ Route::post('/get-user', [UserController::class, 'getInfo']);
 
 Route::get('/verify-password', function() {
     return view('auth.verify-password');
+});
+
+Route::get('/dashboard/simpan', function() {
+    return view('admin.simpan');
+});
+
+Route::get('/dashboard/pinjam', function() {
+    return view('admin.pinjam');
 });

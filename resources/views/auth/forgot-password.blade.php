@@ -94,11 +94,25 @@
                 if (error) {
                     alert('Error resetting password: ' + error.message);
                 } else {
-                    // You can redirect to a success page or login
+                    // ✅ Log the user out to invalidate the session
+                    await supabase.auth.signOut();
+
+                    // 🔐 Redirect to login so they must sign in again
                     window.location.href = '/';
                 }
             });
         </script>
-    @endpush
 
+        <script>
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                eyeIcon.classList.toggle('text-blue-600');
+            });
+        </script>
+    @endpush
 @endsection

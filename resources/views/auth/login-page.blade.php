@@ -117,7 +117,7 @@
             });
         </script>
 
-        {{-- <script>
+        <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const { data: { user }, error } = await window.supabase.auth.getUser();
 
@@ -126,6 +126,6 @@
                     window.location.href = '/dashboard';
                 }
             });
-        </script> --}}
+        </script>
     @endpush
 @endsection
