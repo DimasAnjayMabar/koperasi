@@ -824,25 +824,8 @@
 
     <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
 
-    <script>
+    {{-- <script>
         document.querySelector("#createProductButton").addEventListener("click", () => {
             console.log("Button clicked");
         });
-    </script>
-
-    <script>
-        document.addEventListener('click', function (event) {
-            const drawer = document.getElementById('drawer-read-product-advanced');
-            const isClickInside = drawer.contains(event.target);
-            const isButton = event.target.closest('[data-drawer-show]');
-
-            if (!isClickInside && !isButton) {
-                drawer.classList.add('-translate-x-full');
-                drawer.setAttribute('aria-hidden', 'true');
-
-                // Clean up backdrop if added
-                const backdrop = document.querySelector('.backdrop-blur-sm, .drawer-backdrop');
-                if (backdrop) backdrop.remove();
-            }
-        });
-    </script>
+    </script> --}}

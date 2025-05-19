@@ -11,11 +11,6 @@
         <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
             <div class="flex flex-wrap justify-between items-center">
                 <div class="flex justify-start items-center">
-                    <!-- Hamburger (visible on lg and up) -->
-                    <button id="toggleSidebar" aria-controls="sidebar" class="p-2 mr-3 text-gray-600 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h14M1 6h14M1 11h7"/></svg>
-                    </button>
-
                     <a href="/" class="flex mr-4">
                         <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="FlowBite Logo" />
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Travel App</span>
@@ -48,18 +43,8 @@
         </nav>
     </header>
 
-    <!-- Sidebar and Overlay OUTSIDE header/nav -->
-    <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-black bg-opacity-30 backdrop-blur-sm hidden"></div>
-
-    <aside id="sidebar" class="fixed top-0 left-0 z-50 w-64 h-full bg-white shadow-md dark:bg-gray-800 transform -translate-x-full transition-transform duration-300">
-        <div class="p-4 space-y-4">
-            <a href="#" data-table="simpan" class="block px-4 py-2 text-gray-700 rounded hover:bg-gray-200 dark:text-white dark:hover:bg-gray-600">Simpan</a>
-            <a href="#" data-table="pinjam" class="block px-4 py-2 text-gray-700 rounded hover:bg-gray-200 dark:text-white dark:hover:bg-gray-600">Pinjam</a>
-        </div>
-    </aside>
-
     <div id="table-container" class="p-3 sm:p-5 antialiased">
-        @include('admin_page.dashboard.simpan') <!-- Default table to show -->
+        @include('admin_page.dashboard.test') <!-- Default table to show -->
     </div>
 
     @push('scripts')
