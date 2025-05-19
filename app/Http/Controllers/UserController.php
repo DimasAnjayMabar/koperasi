@@ -18,8 +18,24 @@ class UserController extends Controller
 
         return response() -> json([
             'email' => $user -> email,
-            'name' => $user -> name, 
-            'profile_photo_url' => $user -> profile_photo_url
+            'username' => $user -> username, 
+            'profile' => $user -> profile,
+            'phone' => $user -> phone
+        ]);
+    }
+
+    public function getEmail(Request $request)
+    {
+        $username = $request -> input('username');
+
+        $user = User::where('username', $username) -> first();
+
+        if (!$user){
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        return response() -> json([
+            'email' => $user -> email,
         ]);
     }
 }

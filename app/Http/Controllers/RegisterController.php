@@ -15,22 +15,26 @@ class RegisterController extends Controller
         $request->validate([
             'id' => 'required|string|unique:users,id',
             'email' => 'required|email|unique:users,email',
-            'name' => 'required|string',
-            'profile_photo_url' => 'nullable|image|max:2048',
+            'username' => 'required|string',
+            'phone' => 'string',
+            'profile' => 'nullable|image|max:2048',
+            'role' => 'string'
         ]);
 
         // ✅ Handle optional profile upload
         $path = null;
-        if ($request->hasFile('profile_photo_url')) {
-            $path = $request->file('profile_photo_url')->store("profiles/{$request->id}", 'public');
+        if ($request->hasFile('profile')) {
+            $path = $request->file('profile')->store("profiles/{$request->id}", 'public');
         }
 
         // ✅ Save user
         $user = User::create([
             'id' => $request->input('id'),
             'email' => $request->input('email'),
-            'name' => $request->input('name'),
-            'profile_photo_url' => $path ? Storage::url($path) : null,
+            'username' => $request->input('username'),
+            'phone' => $request->input('phone'),
+            'profile' => $path ? Storage::url($path) : null,
+            'role' => $request->input('role')
         ]);
 
         // ✅ Debug log (for development)

@@ -12,24 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            // Replace auto-increment ID with Supabase's UUID
-            $table->string('id')->primary(); // Matches Supabase user ID
-            
-            $table->string('name');
+            $table->string('id')->primary(); // Supabase UUID as primary key
+        
+            $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->string('phone')->nullable();
+        
+            $table->string('profile')->nullable(); // e.g., profile image path
+            $table->string('role'); // staff or member
+        
             $table->timestamp('email_verified_at')->nullable();
-            
-            // Remove Laravel's password field (handled by Supabase)
-            // $table->string('password'); ❌ Remove this line
-            
-            // Optional: Add Supabase-specific fields
-            $table->json('metadata')->nullable(); // Stores raw_user_meta_data from Supabase
-            $table->string('provider')->nullable(); // 'email', 'google', etc.
-            
-            $table->rememberToken(); // Keep if using Laravel's remember me feature
-            $table->timestamps();
-            $table->string('profile_photo_url')->nullable();
-        });
+        
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_deleted')->default(false);
+        
+            $table->json('metadata')->nullable(); // For any extra dynamic user data
+        
+            $table->timestamps(); // Adds created_at and updated_at
+        });        
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

@@ -16,12 +16,12 @@
             <form class="space-y-4 md:space-y-6 max-w-sm mx-auto" action="#" id="login-form">
                 <!-- Email Field -->
                 <div>
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                    <input type="email" name="email" id="email"
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email or username</label>
+                    <input type="text" name="email" id="email"
                         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="name@company.com" required>
                     <p id="email-error" class="mt-2 text-sm text-red-600 dark:text-red-500 hidden">
-                        <span class="font-medium">Oops!</span> Please enter a valid email.
+                        <span class="font-medium">Oops!</span> Please enter a valid email or username.
                     </p>
                 </div>
 
@@ -68,33 +68,59 @@
         <script>
             document.getElementById('login-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
-        
+
                 const emailInput = document.getElementById('email');
                 const passwordInput = document.getElementById('password');
                 const emailError = document.getElementById('email-error');
                 const passwordError = document.getElementById('password-error');
-        
-                // Reset error states
+
+                // Reset error styles
                 emailInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
                 emailError.classList.add('hidden');
                 passwordInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
                 passwordError.classList.add('hidden');
-        
-                const email = emailInput.value;
+
+                let loginIdentifier = emailInput.value.trim();
                 const password = passwordInput.value;
-        
+
                 try {
+                    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginIdentifier);
+                    let emailToUse = loginIdentifier;
+
+                    if (!isEmail) {
+                        // Send POST request with username in body
+                        const response = await fetch('/resolve-email', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json', 
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({ username: loginIdentifier })
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok || !data.email) {
+                            throw new Error(data.error || 'Username not found');
+                        }
+
+                        emailToUse = data.email;
+                    }
+
                     const { error } = await supabase.auth.signInWithPassword({
-                        email,
+                        email: emailToUse,
                         password
                     });
-        
+
                     if (error) throw error;
-        
+
                     window.location.href = "{{ route('dashboard') }}";
+
                 } catch (error) {
                     console.error(error);
-                    if (error.message.toLowerCase().includes('email')) {
+
+                    if (error.message.toLowerCase().includes('email') || error.message.toLowerCase().includes('username')) {
                         emailInput.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
                         emailError.classList.remove('hidden');
                     } else {
@@ -103,8 +129,8 @@
                     }
                 }
             });
-        </script>    
-
+        </script>
+      
         <script>
             const togglePassword = document.getElementById('toggle-password');
             const passwordInput = document.getElementById('password');

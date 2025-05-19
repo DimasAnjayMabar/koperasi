@@ -27,6 +27,12 @@
                     <input type="text" id="name" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
                 </div>
 
+                <!-- Name/Username -->
+                <div>
+                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your phone number</label>
+                    <input type="phone" id="phone" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
+                </div>
+
                 <!-- Password -->
                 <div>
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
@@ -68,8 +74,9 @@
                 registerForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
 
-                    const name = document.getElementById('name').value;
+                    const username = document.getElementById('name').value;
                     const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
                     const password = document.getElementById('password').value;
                     const confirmPassword = document.getElementById('confirm-password').value;
                     const file = document.getElementById('profile').files[0];
@@ -110,8 +117,10 @@
                         const formData = new FormData();
                         formData.append('id', user.id);
                         formData.append('email', email);
-                        formData.append('name', name);
-                        formData.append('profile_photo_url', file);
+                        formData.append('username', username);
+                        formData.append('phone', phone);
+                        formData.append('profile', file);
+                        formData.append('role', 'staff');
 
                         const response = await fetch('/register/new-user', {
                             method: 'POST',
@@ -128,11 +137,13 @@
 
                         localStorage.setItem('pending_verification_email', email);
                         // Optional: also pass in query string
-                        window.location.href = "{{ route('verify-email') }}";
+                        // window.location.href = "{{ route('verify-email') }}";
+                        alert('Registration successful! Check the console for more details.');
 
 
                     } catch (error) {
                         console.error('Registration failed:', error);
+                        alert(`Registration failed: ${error.message}`);
                     }
                 });
             });

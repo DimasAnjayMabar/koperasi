@@ -34,6 +34,9 @@
                         <div class="py-3 px-4">
                             <span id="name" class="block text-sm text-gray-500 truncate dark:text-gray-400">loading...</span>
                         </div>
+                        <div class="py-3 px-4">
+                            <span id="phone" class="block text-sm text-gray-500 truncate dark:text-gray-400">loading...</span>
+                        </div>
                         <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
                             <li>
                                 <a href="#" id="sign-out" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
@@ -56,7 +59,7 @@
     </aside>
 
     <div id="table-container" class="p-3 sm:p-5 antialiased">
-        @include('admin.simpan') <!-- Default table to show -->
+        @include('admin_page.dashboard.simpan') <!-- Default table to show -->
     </div>
 
     @push('scripts')
@@ -93,8 +96,9 @@
                 const userData = await response.json();
 
                 document.getElementById('email').textContent = userData.email;
-                document.getElementById('profile').src = userData.profile_photo_url || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg';
-                document.getElementById('name').textContent = userData.name;
+                document.getElementById('profile').src = userData.profile || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg';
+                document.getElementById('name').textContent = userData.username;
+                document.getElementById('phone').textContent = userData.phone;
         
                 // Sign-out handling
                 const signOut = document.getElementById('sign-out');

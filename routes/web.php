@@ -9,47 +9,49 @@ Route::get('/', function () {
 })->name('/');
 
 Route::get('/register', function() {
-    return view('auth.register-page');
+    return view('admin_page.auth.register-page');
 })->name('register');
 
 Route::get('/login', function() {
-    return view('auth.login-page');
+    return view('admin_page.auth.login-page');
 })->name('login');
 
 Route::get('/verify-email', function() {
-    return view('auth.verify-email');
+    return view('admin_page.auth.verify-email');
 })->name('verify-email');
 
 Route::get('/verify-success', function() {
-    return view('auth.verify-success');
+    return view('admin_page.auth.verify-success');
 })->name('verify-success');
 
 Route::post('/register/new-user', [RegisterController::class, 'register']);
 
 Route::get('/dashboard', function() {
-    return view('admin.navbar');
+    return view('admin_page.dashboard.navbar');
 })->name('dashboard');
 
 Route::post('/register/update-user', [RegisterController::class, 'checkUserExist']);
 
 Route::get('/find-email', function () {
-    return view('auth.find-email');
+    return view('admin_page.auth.find-email');
 })->name('find-email');
 
 Route::get('/reset-password', function() {
-    return view('auth.forgot-password');
+    return view('admin_page.auth.forgot-password');
 });
 
 Route::post('/get-user', [UserController::class, 'getInfo']);
 
 Route::get('/verify-password', function() {
-    return view('auth.verify-password');
+    return view('admin_page.auth.verify-password');
 });
 
 Route::get('/dashboard/simpan', function() {
-    return view('admin.simpan');
+    return view('admin_page.dashboard.simpan');
 });
 
 Route::get('/dashboard/pinjam', function() {
-    return view('admin.pinjam');
+    return view('admin_page.dashboard.pinjam');
 });
+
+Route::post('/resolve-email', [UserController::class, 'getEmail']);
