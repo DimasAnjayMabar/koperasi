@@ -7,21 +7,22 @@
             backdrop-filter: blur(4px);
         }
     </style>
+    <!-- Navbar -->
     <header class="antialiased">
         <nav class="bg-white border-gray-200 px-4 py-2.5 dark:bg-gray-800">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <!-- Hamburger Button (Always Visible) -->
                     <button id="hamburger" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700">
-                        <i class="fas fa-bars text-xl"></i> <!-- Font Awesome hamburger icon -->
+                        <i class="fas fa-bars text-xl"></i> 
                     </button>
 
                     <a href="{{ route('dashboard') }}" class="flex mr-4">
                         <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Travel App</span>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Koperasi</span>
                     </a>
                 </div>
-
+                
+                <!-- Preview Profile -->
                 <div class="flex items-center">
                     <button type="button" class="flex mx-3 text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
                         <span class="sr-only">Open user menu</span>
@@ -62,7 +63,7 @@
 
     <!-- Dynamic Content Container -->
     <div id="table-container" class="p-3 sm:p-5 antialiased">
-        <!-- Start block -->
+        <!-- Table Start -->
         <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
             <div class="mx-auto max-w-screen-2xl px-4 lg:px-12">
                 <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -724,8 +725,8 @@
                 </div>
             </div>
         </section>
-        <!-- End block -->
-        <!-- drawer component -->
+        <!-- Table End -->
+        <!-- Add Member Modal -->
         <form action="#" id="add-member" class="fixed top-0 left-0 z-40 w-full h-screen max-w-md p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="createProductModal-label" aria-hidden="true">
             <h5 id="" class="inline-flex items-center mb-4 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Add Member</h5>
             <button type="button" data-drawer-dismiss="add-member" aria-controls="add-member" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 dark:hover:bg-gray-600 dark:hover:text-white">
@@ -867,6 +868,7 @@
             </div>
         </form>
 
+        <!-- Edit Member Modal -->
         <form action="#" id="drawer-update-product" class="fixed top-0 left-0 z-40 w-full h-screen max-w-md p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-update-product-label" aria-hidden="true">
             <h5 id="drawer-label" class="inline-flex items-center mb-4 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Edit Member</h5>
             <button type="button" data-drawer-dismiss="drawer-update-product" aria-controls="drawer-update-product" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 dark:hover:bg-gray-600 dark:hover:text-white">
@@ -906,7 +908,7 @@
             </div>
         </form>
         
-        <!-- Preview Drawer -->
+        <!-- Preview Member Modal -->
         <div id="drawer-read-product-advanced" class="overflow-y-auto fixed top-0 left-0 z-40 p-4 w-full max-w-lg h-screen bg-white transition-transform -translate-x-full dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-label" aria-hidden="true">
             <div>
                 <h4 id="read-drawer-label" class="mb-1.5 leading-none text-xl font-semibold text-gray-900 dark:text-white">Apple iMac 25"</h4>
@@ -993,7 +995,8 @@
                 </button>
             </div>
         </div>
-        <!-- Delete Modal -->
+
+        <!-- Delete Member Modal -->
         <div id="delete-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative w-full h-auto max-w-md max-h-full">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -1019,6 +1022,7 @@
     </div>
 
     @push('scripts')
+        <!-- Auth Script -->
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const { data: { user }, error } = await window.supabase.auth.getUser();
@@ -1069,6 +1073,7 @@
             });
         </script>
 
+        <!-- Sidebar Script -->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const links = document.querySelectorAll('[data-table]');
@@ -1099,6 +1104,7 @@
             });
         </script>
 
+        <!-- Toogle Password Script -->
         <script>
             const togglePassword = document.getElementById('toggle-password');
             const passwordInput = document.getElementById('password');
