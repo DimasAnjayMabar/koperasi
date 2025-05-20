@@ -50,8 +50,12 @@ Route::get('/dashboard/simpan', function() {
     return view('admin_page.dashboard.simpan');
 });
 
-Route::get('/dashboard/pinjam', function() {
-    return view('admin_page.dashboard.pinjam');
+Route::get('/dashboard/history', function() {
+    return view('admin_page.dashboard.histories');
+});
+
+Route::get('/dashboard/profile', function() {
+    return view('admin_page.dashboard.profile');
 });
 
 Route::post('/resolve-email', [UserController::class, 'getEmail']);

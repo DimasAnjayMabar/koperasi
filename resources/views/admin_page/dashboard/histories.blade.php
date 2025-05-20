@@ -5,7 +5,7 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div class="flex-1 flex items-center space-x-2">
                     <h5>
-                        <span class="text-gray-500 dark:text-white">Member Accounts</span>
+                        <span class="text-gray-500 dark:text-white">Histories</span>
                     </h5>
                 </div>
             </div>
