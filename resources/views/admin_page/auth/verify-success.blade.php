@@ -64,6 +64,7 @@
                     });
                     // Step 3: Redirect to dashboard after registration is complete
                     window.location.href = '/';
+                    await supabase.auth.signOut();
                 } catch (err) {
                     console.error('Error:', err);
                     alert('Something went wrong. Please try again later.');

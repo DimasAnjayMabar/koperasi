@@ -137,8 +137,8 @@
 
                         localStorage.setItem('pending_verification_email', email);
                         // Optional: also pass in query string
-                        // window.location.href = "{{ route('verify-email') }}";
-                        alert('Registration successful! Check the console for more details.');
+                        window.location.href = "{{ route('verify-email') }}";
+                        // alert('Registration successful! Check the console for more details.');
 
 
                     } catch (error) {

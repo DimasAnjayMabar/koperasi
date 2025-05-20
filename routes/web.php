@@ -48,14 +48,14 @@ Route::get('/verify-password', function() {
 
 Route::get('/dashboard/simpan', function() {
     return view('admin_page.dashboard.simpan');
-});
+})->name('simpan');
 
 Route::get('/dashboard/history', function() {
     return view('admin_page.dashboard.histories');
-});
+})->name('history');
 
 Route::get('/dashboard/profile', function() {
     return view('admin_page.dashboard.profile');
-});
+})->name('profile');
 
 Route::post('/resolve-email', [UserController::class, 'getEmail']);

@@ -115,7 +115,7 @@
 
                     if (error) throw error;
 
-                    window.location.href = "{{ route('dashboard') }}";
+                    window.location.href = "/dashboard/simpan";
 
                 } catch (error) {
                     console.error(error);
@@ -149,7 +149,7 @@
 
                 if (user) {
                     // Already logged in, redirect to dashboard
-                    window.location.href = '/dashboard';
+                    window.location.href = '/dashboard/simpan';
                 }
             });
         </script>

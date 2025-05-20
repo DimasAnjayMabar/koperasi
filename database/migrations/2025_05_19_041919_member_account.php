@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('simpanan_wajib', 15, 2)->default(0);
             $table->decimal('simpanan_sukarela', 15, 2)->default(0);
             $table->decimal('sibuhar', 15, 2)->default(0);
+            $table->decimal('debt', 15, 2)->default(0);
         
             $table->boolean('is_active')->default(true);
             $table->boolean('is_deleted')->default(false);
