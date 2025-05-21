@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('phone')->nullable();
+            $table->string('name');
         
             $table->string('profile')->nullable(); // e.g., profile image path
             $table->string('role'); // staff or member

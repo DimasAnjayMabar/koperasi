@@ -28,7 +28,7 @@ return new class extends Migration
                 'sibuhar'
             ]);
         
-            $table->enum('type', ['deposit', 'withdrawal']);
+            $table->enum('type', ['deposit', 'withdrawal', 'debt']);
         
             $table->timestamps();
         
