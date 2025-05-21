@@ -126,7 +126,7 @@
                         formData.append('name', name)
                         formData.append('username', username);
                         formData.append('phone', phone);
-                        formData.append('profile', file);
+                        formData.append('profile', file || '');
                         formData.append('role', 'staff');
 
                         const response = await fetch('/register/new-user', {
