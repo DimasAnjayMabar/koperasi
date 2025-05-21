@@ -15,6 +15,7 @@ class RegisterController extends Controller
         $request->validate([
             'id' => 'required|string|unique:users,id',
             'email' => 'required|email|unique:users,email',
+            'name' => 'required|string',
             'username' => 'required|string',
             'phone' => 'string',
             'profile' => 'nullable|image|max:2048',
@@ -32,6 +33,7 @@ class RegisterController extends Controller
             'id' => $request->input('id'),
             'email' => $request->input('email'),
             'username' => $request->input('username'),
+            'name' => $request -> input('name'),
             'phone' => $request->input('phone'),
             'profile' => $path ? Storage::url($path) : null,
             'role' => $request->input('role')
