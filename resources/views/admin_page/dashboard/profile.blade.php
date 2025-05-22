@@ -63,39 +63,82 @@
     <div id="table-container" class="p-3 sm:p-5 antialiased">
         <!-- Profile -->
         <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
-          <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
-            <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16 items-center">
-              <!-- Image Section -->
-              <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                <img class="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="Profile" />
-                <img class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="Profile Dark" />
-              </div>
-      
-              <!-- Info Section -->
-              <div class="mt-6 sm:mt-8 lg:mt-0">
-                <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white mb-4">
-                  John Doe
-                </h1>
-      
-                <div class="space-y-4">
-                  <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-                    <span class="text-lg font-medium text-gray-500 dark:text-gray-400">Phone:</span>
-                    <span class="text-lg font-semibold text-gray-900 dark:text-white">+1 (123) 456-7890</span>
-                  </div>
-                  <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-                    <span class="text-lg font-medium text-gray-500 dark:text-gray-400">Email:</span>
-                    <span class="text-lg font-semibold text-gray-900 dark:text-white">john.doe@example.com</span>
-                  </div>
-                </div>
+            <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16 items-center">
+                    <!-- Image Section -->
+                    <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
+                        <img class="w-full rounded-full object-cover hidden dark:block" id="profile-photo" src="" alt="Profile Dark" />
+                    </div>
+            
+                    <!-- Info Section -->
+                    <div class="mt-6 sm:mt-8 lg:mt-0">
+                        <h1 id="profile-name" class="text-2xl font-extrabold text-gray-900 dark:text-white mb-4">
+                        Loading...
+                        </h1>
+            
+                        <div class="mb-5 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+                            <span class="text-lg font-medium text-gray-500 dark:text-gray-400">Phone:</span>
+                            <span id="profile-phone" class="text-lg font-semibold text-gray-900 dark:text-white">Loading...</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+                            <span class="text-lg font-medium text-gray-500 dark:text-gray-400">Email:</span>
+                            <span id="profile-email" class="text-lg font-semibold text-gray-900 dark:text-white">Loading...</span>
+                        </div>
+                        </div>
 
-                <button type="button" data-drawer-target="edit-staff" data-drawer-show="edit-staff" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                    Back
-                </button>
-              </div>
+                        <button type="button" data-drawer-target="edit-staff" data-drawer-show="edit-staff" class="mb-5 w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                            Edit Profile
+                        </button>
+
+                        <button type="button" id="signout-btn" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                            Logout
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
         </section>
-    </div>      
+    </div> 
+    
+    <!-- Edit Profile -->
+    <form action="#" id="edit-staff" class="fixed top-0 left-0 z-40 w-full h-screen max-w-md p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-update-product-label" aria-hidden="true">
+        <h5 id="drawer-label" class="inline-flex items-center mb-4 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Edit Staff</h5>
+        <button type="button" data-drawer-dismiss="edit-staff" aria-controls="edit-staff" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 dark:hover:bg-gray-600 dark:hover:text-white">
+            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            <span class="sr-only">Close menu</span>
+        </button>
+        <div class="grid gap-3">
+            <div>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="John Doe" required="">
+            </div>
+            <div>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                <input type="text" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="domain@example.com" required="">
+            </div>
+            <div>
+                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="12345678" required="">
+            </div>
+            <div>
+                <span class="block mb-1 text-xs font-medium text-gray-900 dark:text-white">Staff Profile</span>
+                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <div class="flex flex-col items-center justify-center pt-3 pb-3">
+                        <svg aria-hidden="true" class="w-6 h-6 mb-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        <p class="text-xs text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag</p>
+                        <p class="text-[10px] text-gray-500 dark:text-gray-400">SVG, PNG, JPG, GIF (800x400px max)</p>
+                    </div>
+                    <input id="dropzone-file" type="file" class="hidden">
+                </label>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mt-4">
+            <button type="submit" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Update</button>
+            <button type="button" data-drawer-dismiss="edit-staff" aria-controls="edit-staff" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                Discard
+            </button>
+        </div>
+    </form>
 
     @push('scripts')
         <script>
@@ -134,11 +177,20 @@
                 document.getElementById('profile').src = userData.profile || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg';
                 document.getElementById('name').textContent = userData.username;
                 document.getElementById('phone').textContent = userData.phone;
+                document.getElementById('profile-name').textContent = userData.name;
+                document.getElementById('profile-phone').textContent = userData.phone;
+                document.getElementById('profile-email').textContent = userData.email;
+                document.getElementById('profile-photo').src = userData.profile || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg';
         
                 // Sign-out handling
-                const signOut = document.getElementById('sign-out');
-                if (signOut) {
-                    signOut.addEventListener('click', async (event) => {
+                const signOutLinks = [
+                    document.getElementById('sign-out'),
+                    document.getElementById('signout-btn')
+                ];
+
+                signOutLinks.forEach(link => {
+                    if (link) {
+                        link.addEventListener('click', async (event) => {
                         event.preventDefault();
                         await window.supabase.auth.signOut();
                         sessionStorage.removeItem('loggedIn'); // Clear session flag
