@@ -49,16 +49,14 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <a href="{{ route('find-email') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
+                    <a href="{{ route('member-find-email') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
                 </div>
             
                 <button type="submit"
                     class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign In</button>
             
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                    Don’t have an account yet?
-                    <a href="{{ route('register') }}"
-                        class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</a>
+                    Don’t have an account yet?, please contact our staff
                 </p>
             </form>            
         </div>

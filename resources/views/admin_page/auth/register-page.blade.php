@@ -112,7 +112,10 @@
                     try {
                         const { data: signupData, error: signupError } = await supabase.auth.signUp({
                             email,
-                            password
+                            password, 
+                            options : {
+                                emailRedirectTo : "{{ route('staff-verify-success') }}"
+                            }
                         });
 
                         if (signupError) throw signupError;

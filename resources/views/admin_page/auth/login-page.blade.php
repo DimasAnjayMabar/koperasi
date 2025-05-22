@@ -85,7 +85,7 @@
 
                 try {
                     // Always fetch email and role info from backend
-                    const response = await fetch('/staff/resolve-user', {
+                    const response = await fetch('/resolve-email-staff', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

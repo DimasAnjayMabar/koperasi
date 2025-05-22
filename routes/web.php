@@ -38,6 +38,8 @@ Route::get('/staff/forgot-password', function() {
 
 Route::post('/get-staff', [UserController::class, 'getInfo']);
 
+Route::post('/get-member', [UserController::class, 'getInfo']);
+
 Route::get('/staff/verify-password', function() {
     return view('admin_page.auth.verify-password');
 });
@@ -59,3 +61,19 @@ Route::post('/resolve-email-staff', [UserController::class, 'getEmail']);
 Route::get('/member/login', function(){
     return view ('user_page.auth.login-page');
 })->name('member-login');
+
+Route::get('/member', function(){
+    return view('user_page.welcome');
+})->name('member');
+
+Route::get('/member/find-email', function(){
+    return view('user_page.auth.find-email');
+})->name('member-find-email');
+
+Route::get('/member/forgot-password', function(){
+    return view('user_page.auth.forgot-password');
+});
+
+Route::get('/member/verify-password', function(){
+    return view('user_page.auth.verify-password');
+});

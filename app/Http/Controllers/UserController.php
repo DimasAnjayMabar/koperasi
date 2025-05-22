@@ -21,23 +21,34 @@ class UserController extends Controller
             'username' => $user -> username, 
             'name' => $user -> name,
             'profile' => $user -> profile,
-            'phone' => $user -> phone
+            'phone' => $user -> phone,
+            'role' => $user -> role
         ]);
     }
 
     public function getEmail(Request $request)
     {
-        $username = $request -> input('username');
+        $identifier = $request->input('identifier');
 
-        $user = User::where('username', $username) -> first();
+        if (!$identifier) {
+            return response()->json(['error' => 'No identifier provided'], 400);
+        }
 
-        if (!$user){
+        // Determine if input is an email
+        $isEmail = filter_var($identifier, FILTER_VALIDATE_EMAIL);
+
+        // Fetch user by email or username
+        $user = $isEmail
+            ? User::where('email', $identifier)->first()
+            : User::where('username', $identifier)->first();
+
+        if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
 
-        return response() -> json([
-            'email' => $user -> email,
-            'role' => $user -> role
+        return response()->json([
+            'email' => $user->email,
+            'role' => $user->role
         ]);
     }
 }

@@ -58,7 +58,7 @@
         
                 try {
                     // Step 1: Verify role is staff
-                    const response = await fetch('/get-staff', {
+                    const response = await fetch('/get-member', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -69,13 +69,13 @@
         
                     const data = await response.json();
         
-                    if (!response.ok || data.role !== 'staff') {
-                        throw new Error(data.error || 'User is not staff');
+                    if (!response.ok || data.role !== 'member') {
+                        throw new Error(data.error || 'User is not member');
                     }
         
                     // Step 2: Trigger Supabase password reset
                     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                        redirectTo: window.location.origin + '/staff/forgot-password'
+                        redirectTo: window.location.origin + '/member/forgot-password'
                     });
         
                     if (error) {
@@ -88,7 +88,7 @@
                     status.classList.remove('hidden');
         
                     setTimeout(() => {
-                        window.location.href = "/staff/verify-password";
+                        window.location.href = "/member/verify-password";
                     }, 2000);
         
                 } catch (err) {

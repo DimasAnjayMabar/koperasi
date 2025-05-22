@@ -57,7 +57,9 @@
                     type: 'signup',
                     email,
                     options: {
-                        emailRedirectTo: window.location.origin + '{{ route('staff-verify-success') }}'
+                        options: {
+                            emailRedirectTo: "{{ route('staff-verify-success') }}"
+                        }
                     }
                 });
 
