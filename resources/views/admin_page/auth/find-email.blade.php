@@ -60,7 +60,7 @@
                     const { error } = await supabase.auth.resetPasswordForEmail(
                         email, // First parameter - the email string
                         {      // Second parameter - options object
-                            redirectTo: window.location.origin + '/reset-password'
+                            redirectTo: window.location.origin + '/staff/reset-password'
                         }
                     );
 
@@ -78,7 +78,7 @@
                         
                         // Optional: Redirect after a short delay to let user see the success message
                         setTimeout(() => {
-                            window.location.href = "/verify-password";
+                            window.location.href = "/staff/verify-password";
                         }, 2000);
                     }
                 } catch (err) {

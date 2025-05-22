@@ -36,6 +36,7 @@ class UserController extends Controller
 
         return response() -> json([
             'email' => $user -> email,
+            'role' => $user -> role
         ]);
     }
 }

@@ -24,14 +24,14 @@
             </div>
 
             <!-- Automatic redirect to dashboard -->
-            <a href="{{ route('/') }}" class="block w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <a href="{{ route('/staff') }}" class="block w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Continue
             </a>
 
             <!-- Alternative: Auto-redirect with JavaScript -->
             <script>
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = '/staff';
                 }, 3000); // Redirect after 3 seconds
             </script>
         </div>
@@ -44,7 +44,7 @@
 
                 if (error || !user) {
                     alert('Verification failed. Please try logging in.');
-                    window.location.href = '/';
+                    window.location.href = '/staff';
                     return;
                 }
 
@@ -54,7 +54,7 @@
                         email_verified_at: new Date().toString()
                     };
 
-                    await fetch('/register/update-user', {
+                    await fetch('/register/update-staff', {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json',

@@ -65,7 +65,7 @@
 
                 <!-- Login -->
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
-                    Already have an account? <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Login here</a>
+                    Already have an account? <a href="{{ route('staff-login') }}" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Login here</a>
                 </p>
             </form>
         </div>
@@ -129,7 +129,7 @@
                         formData.append('profile', file);
                         formData.append('role', 'staff');
 
-                        const response = await fetch('/register/new-user', {
+                        const response = await fetch('/register/new-staff', {
                             method: 'POST',
                             body: formData,
                             headers: {
@@ -144,7 +144,7 @@
 
                         localStorage.setItem('pending_verification_email', email);
                         // Optional: also pass in query string
-                        window.location.href = "{{ route('verify-email') }}";
+                        window.location.href = "{{ route('staff-verify-email') }}";
                         // alert('Registration successful! Check the console for more details.');
 
 

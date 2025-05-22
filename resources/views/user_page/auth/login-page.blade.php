@@ -6,7 +6,7 @@
             <div class="text-center">
                 <a href="#" class="flex justify-center items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                     <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-                    Travel App   
+                    Koperasi
                 </a>
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Sign in to your account
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <a href="{{ route('staff-find-email') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
+                    <a href="{{ route('find-email') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot password?</a>
                 </div>
             
                 <button type="submit"
@@ -57,7 +57,7 @@
             
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                     Don’t have an account yet?
-                    <a href="{{ route('staff-register') }}"
+                    <a href="{{ route('register') }}"
                         class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</a>
                 </p>
             </form>            
@@ -85,7 +85,7 @@
 
                 try {
                     // Always fetch email and role info from backend
-                    const response = await fetch('/staff/resolve-user', {
+                    const response = await fetch('/resolve-user', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -111,10 +111,10 @@
                     if (error) throw error;
 
                     // Role-based redirect
-                    if (role === 'staff') {
-                        window.location.href = "/staff/dashboard/simpan";
+                    if (role === 'member') {
+                        window.location.href = "/dashboard/simpan";
                     } else {
-                        alert('This account is not staff');
+                        alert('This account is not member');
                     }
 
                 } catch (error) {
@@ -149,7 +149,7 @@
 
                 if (user) {
                     // Already logged in, redirect to dashboard
-                    window.location.href = '/staff/dashboard/simpan';
+                    window.location.href = '/dashboard/simpan';
                 }
             });
         </script>

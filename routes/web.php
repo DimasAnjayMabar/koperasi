@@ -4,58 +4,58 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('/');
+Route::get('/staff', function () {
+    return view('admin_page.welcome');
+})->name('staff');
 
-Route::get('/register', function() {
+Route::get('/staff/register', function() {
     return view('admin_page.auth.register-page');
-})->name('register');
+})->name('staff-register');
 
-Route::get('/login', function() {
+Route::get('/staff/login', function() {
     return view('admin_page.auth.login-page');
-})->name('login');
+})->name('staff-login');
 
-Route::get('/verify-email', function() {
+Route::get('/staff/verify-email', function() {
     return view('admin_page.auth.verify-email');
-})->name('verify-email');
+})->name('staff-verify-email');
 
-Route::get('/verify-success', function() {
+Route::get('/staff/verify-success', function() {
     return view('admin_page.auth.verify-success');
-})->name('verify-success');
+})->name('staff-verify-success');
 
-Route::post('/register/new-user', [RegisterController::class, 'register']);
+Route::post('/register/new-staff', [RegisterController::class, 'register']);
 
-Route::get('/dashboard', function() {
-    return view('admin_page.dashboard.navbar');
-})->name('dashboard');
+Route::post('/register/update-staff', [RegisterController::class, 'checkUserExist']);
 
-Route::post('/register/update-user', [RegisterController::class, 'checkUserExist']);
-
-Route::get('/find-email', function () {
+Route::get('/staff/find-email', function () {
     return view('admin_page.auth.find-email');
-})->name('find-email');
+})->name('staff-find-email');
 
-Route::get('/reset-password', function() {
+Route::get('/staff/forgot-password', function() {
     return view('admin_page.auth.forgot-password');
 });
 
-Route::post('/get-user', [UserController::class, 'getInfo']);
+Route::post('/get-staff', [UserController::class, 'getInfo']);
 
-Route::get('/verify-password', function() {
+Route::get('/staff/verify-password', function() {
     return view('admin_page.auth.verify-password');
 });
 
-Route::get('/dashboard/simpan', function() {
+Route::get('/staff/dashboard/simpan', function() {
     return view('admin_page.dashboard.simpan');
 })->name('simpan');
 
-Route::get('/dashboard/history', function() {
+Route::get('/staff/dashboard/history', function() {
     return view('admin_page.dashboard.histories');
 })->name('history');
 
-Route::get('/dashboard/profile', function() {
+Route::get('/staff/dashboard/profile', function() {
     return view('admin_page.dashboard.profile');
-})->name('profile');
+})->name('staff-profile');
 
-Route::post('/resolve-email', [UserController::class, 'getEmail']);
+Route::post('/resolve-email-staff', [UserController::class, 'getEmail']);
+
+Route::get('/member/login', function(){
+    return view ('user_page.auth.login-page');
+})->name('member-login');

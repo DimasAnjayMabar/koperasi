@@ -63,7 +63,7 @@
             
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                     Change your mind? Already remember your password?
-                    <a href="{{ route('login') }}"
+                    <a href="{{ route('staff-login') }}"
                         class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign in</a>
                 </p>
             </form>            
@@ -98,7 +98,7 @@
                     await supabase.auth.signOut();
 
                     // 🔐 Redirect to login so they must sign in again
-                    window.location.href = '/';
+                    window.location.href = '/staff';
                 }
             });
         </script>

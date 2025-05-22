@@ -16,7 +16,7 @@
                         <i class="fas fa-bars text-xl"></i> <!-- Font Awesome hamburger icon -->
                     </button>
 
-                    <a href="{{ route('simpan') }}" class="flex mr-4">
+                    <a href="{{ route('staff-profile') }}" class="flex mr-4">
                         <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" alt="FlowBite Logo" />
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Koperasi</span>
                     </a>
@@ -56,7 +56,7 @@
         <div class="p-4 space-y-2">
             <a href="{{ route('simpan') }}" data-table="simpan" class="block px-4 py-2 rounded text-white hover:bg-gray-100 dark:hover:bg-gray-700">Simpan</a>
             <a href="{{ route('history') }}" data-table="history" class="block px-4 py-2 rounded  text-white hover:bg-gray-100 dark:hover:bg-gray-700">History</a>
-            <a href="{{ route('profile') }}" data-table="profile" class="block px-4 py-2 rounded  text-white hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
+            <a href="{{ route('staff-profile') }}" data-table="profile" class="block px-4 py-2 rounded  text-white hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
     </aside>
 
     <!-- Dynamic Content Container -->
@@ -104,7 +104,7 @@
         
                 if (!user || error) {
                     // Not authenticated — redirect to welcome
-                    window.location.href = '/';
+                    window.location.href = '/staff';
                     return;
                 }
         
@@ -119,7 +119,7 @@
                     }
                 });
 
-                const response = await fetch('/get-user', {
+                const response = await fetch('/get-staff', {
                     method : 'POST',
                     headers : {
                         'Content-Type' : 'application/json',
@@ -142,7 +142,7 @@
                         event.preventDefault();
                         await window.supabase.auth.signOut();
                         sessionStorage.removeItem('loggedIn'); // Clear session flag
-                        window.location.href = '/';
+                        window.location.href = '/staff';
                     });
                 }
             });
