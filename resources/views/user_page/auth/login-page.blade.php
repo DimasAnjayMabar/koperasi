@@ -65,68 +65,68 @@
     @push('scripts')
         <script>
             document.getElementById('login-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
+                    e.preventDefault();
 
-                const emailInput = document.getElementById('email');
-                const passwordInput = document.getElementById('password');
-                const emailError = document.getElementById('email-error');
-                const passwordError = document.getElementById('password-error');
+                    const emailInput = document.getElementById('email');
+                    const passwordInput = document.getElementById('password');
+                    const emailError = document.getElementById('email-error');
+                    const passwordError = document.getElementById('password-error');
 
-                // Reset error styles
-                emailInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
-                emailError.classList.add('hidden');
-                passwordInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
-                passwordError.classList.add('hidden');
+                    // Reset error styles
+                    emailInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
+                    emailError.classList.add('hidden');
+                    passwordInput.classList.remove('bg-red-50', 'border-red-500', 'text-red-900');
+                    passwordError.classList.add('hidden');
 
-                const loginIdentifier = emailInput.value.trim();
-                const password = passwordInput.value;
+                    const loginIdentifier = emailInput.value.trim();
+                    const password = passwordInput.value;
 
-                try {
-                    // Always fetch email and role info from backend
-                    const response = await fetch('/resolve-user', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
-                        body: JSON.stringify({ identifier: loginIdentifier })
-                    });
+                    try {
+                        // Always fetch email and role info from backend
+                        const response = await fetch('/resolve-email-member', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({ identifier: loginIdentifier })
+                        });
 
-                    const data = await response.json();
+                        const data = await response.json();
 
-                    if (!response.ok || !data.email || !data.role) {
-                        throw new Error(data.error || 'User not found');
+                        if (!response.ok || !data.email || !data.role) {
+                            throw new Error(data.error || 'User not found');
+                        }
+
+                        const { email, role } = data;
+
+                        const { error } = await supabase.auth.signInWithPassword({
+                            email,
+                            password
+                        });
+
+                        if (error) throw error;
+
+                        // Role-based redirect
+                        if (role === 'member') {
+                            window.location.href = "/member/dashboard/account";
+                        } else {
+                            alert('This account is not staff');
+                        }
+
+                    } catch (error) {
+                        console.error(error);
+
+                        if (error.message.toLowerCase().includes('email') || error.message.toLowerCase().includes('username')) {
+                            emailInput.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
+                            emailError.classList.remove('hidden');
+                        } else {
+                            passwordInput.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
+                            passwordError.classList.remove('hidden');
+                        }
                     }
-
-                    const { email, role } = data;
-
-                    const { error } = await supabase.auth.signInWithPassword({
-                        email,
-                        password
-                    });
-
-                    if (error) throw error;
-
-                    // Role-based redirect
-                    if (role === 'member') {
-                        window.location.href = "/dashboard/simpan";
-                    } else {
-                        alert('This account is not member');
-                    }
-
-                } catch (error) {
-                    console.error(error);
-
-                    if (error.message.toLowerCase().includes('email') || error.message.toLowerCase().includes('username')) {
-                        emailInput.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
-                        emailError.classList.remove('hidden');
-                    } else {
-                        passwordInput.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
-                        passwordError.classList.remove('hidden');
-                    }
-                }
-            });
+                });
         </script>
       
         <script>
@@ -147,7 +147,7 @@
 
                 if (user) {
                     // Already logged in, redirect to dashboard
-                    window.location.href = '/dashboard/simpan';
+                    window.location.href = '/member/dashboard/account';
                 }
             });
         </script>

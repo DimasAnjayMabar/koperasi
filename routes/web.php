@@ -58,6 +58,8 @@ Route::get('/staff/dashboard/profile', function() {
 
 Route::post('/resolve-email-staff', [UserController::class, 'getEmail']);
 
+Route::post('/resolve-email-member', [UserController::class, 'getEmail']);
+
 Route::get('/member/login', function(){
     return view ('user_page.auth.login-page');
 })->name('member-login');
@@ -77,3 +79,11 @@ Route::get('/member/forgot-password', function(){
 Route::get('/member/verify-password', function(){
     return view('user_page.auth.verify-password');
 });
+
+Route::get('member/dashboard/account', function(){
+    return view('user_page.dashboard.account');
+})->name('account');
+
+Route::get('member/dashoboard/profile', function(){
+    return view('user_page.dashboard.profile');
+})->name('member-profile');
