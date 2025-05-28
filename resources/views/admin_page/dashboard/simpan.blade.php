@@ -294,7 +294,7 @@
                       >
                       <button type="button" id="toggle-password" aria-label="Toggle password visibility"
                         class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                           viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -319,7 +319,7 @@
                       >
                       <button type="button" id="toggle-confirm-password" aria-label="Toggle confirm password visibility"
                         class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                        <svg id="eye-icon-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                           viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -354,18 +354,10 @@
                   >
                 </div>
               
+                <!-- Upload Image -->
                 <div>
-                  <span class="block mb-1 text-xs font-semibold text-gray-800 dark:text-gray-200">Member Profile</span>
-                  <label for="profile" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-md cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-700 transition">
-                    <div class="flex flex-col items-center justify-center pt-3 pb-3">
-                      <svg aria-hidden="true" class="w-6 h-6 mb-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                      </svg>
-                      <p class="text-xs text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag</p>
-                      <p class="text-[10px] text-gray-500 dark:text-gray-400">SVG, PNG, JPG, GIF (800x400px max)</p>
-                    </div>
-                    <input id="profile" type="file" class="hidden">
-                  </label>
+                    <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="profile">Upload profile picture (optional)</label>
+                    <input id="user-profile" class="block w-full text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" accept="image/*">
                 </div>
                 
                 <!-- This section goes to history table then divide to member account table-->
@@ -603,8 +595,26 @@
             });
         </script>
 
+        <script>
+            const togglePasswordConfirm = document.getElementById('toggle-confirm-password');
+            const passwordInputConfirm = document.getElementById('confirm-password');
+            const eyeIconConfirm = document.getElementById('eye-icon-confirm');
+
+            togglePasswordConfirm.addEventListener('click', () => {
+                const type = passwordInputConfirm.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInputConfirm.setAttribute('type', type);
+                eyeIconConfirm.classList.toggle('text-blue-600');
+            });
+        </script>
+
         <!-- Register Member -->
         <script>
+            // Initialize Supabase and make it globally available
+            window.supabase = supabase.createClient(
+                '{{ env("USER_SUPABASE_URL") }}',
+                '{{ env("USER_SUPABASE_KEY") }}'
+            );
+
             document.addEventListener('DOMContentLoaded', () => {
                 const addMemberForm = document.getElementById('add-member');
 
@@ -619,7 +629,7 @@
                     const password = document.getElementById('password').value;
                     const confirmPassword = document.getElementById('confirm-password').value;
                     const deposit = parseFloat(document.getElementById('deposit').value);
-                    const file = document.getElementById('profile').files[0];
+                    const file = document.getElementById('user-profile').files[0];
 
                     // Reset error states
                     const passwordInput = document.getElementById('password');

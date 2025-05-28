@@ -74,13 +74,15 @@ class RegisterController extends Controller
     public function registerMember(Request $request)
     {
         try {
-            // 0. Create user in Supabase (via Admin API)
-            $supabaseUrl = env('SUPABASE_MEMBER_URL');
-            $supabaseKey = env('SUPABASE_MEMBER_SERVICE_ROLE_KEY');
-
+            // 1. Configure Supabase
+            $supabaseUrl = rtrim(env('SUPABASE_URL'), '/');
+            $anonKey = env('SUPABASE_ANON_KEY');
+            $serviceRoleKey = env('SUPABASE_SERVICE_ROLE_KEY');
+            
+            // 2. Create user WITHOUT immediate confirmation
             $response = Http::withHeaders([
-                'apikey' => $supabaseKey,
-                'Authorization' => 'Bearer ' . $supabaseKey,
+                'apikey' => $anonKey,
+                'Authorization' => 'Bearer ' . $serviceRoleKey,
                 'Content-Type' => 'application/json',
             ])->post("{$supabaseUrl}/auth/v1/admin/users", [
                 'email' => $request->email,
@@ -91,10 +93,21 @@ class RegisterController extends Controller
                     'phone' => $request->phone,
                     'role' => 'member'
                 ]
+                // Removed 'email_confirm' => true to enable confirmation flow
             ]);
 
+            // Add detailed error logging
             if (!$response->successful()) {
-                return response()->json(['success' => false, 'message' => 'Failed to create user in Supabase'], 500);
+                // This will appear in console if running as artisan command
+                echo "\nSupabase Error:\n";
+                print_r($response->json());
+                echo "\nRequest Data:\n";
+                print_r($request->except('password'));
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to create user in Supabase'
+                ], 500);
             }
 
             $user = $response->json();
