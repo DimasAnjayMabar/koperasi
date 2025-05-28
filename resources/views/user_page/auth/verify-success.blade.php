@@ -1,4 +1,4 @@
-@extends('admin_page.app')
+@extends('user_page.app')
 
 @section('content')
     <section class="h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -44,17 +44,17 @@
 
                 if (error || !user) {
                     alert('Verification failed. Please try logging in.');
-                    window.location.href = '/staff';
+                    window.location.href = '/member';
                     return;
                 }
 
                 try {
                     const formData = {
                         id: user.id, 
-                        email_verified_at: new Date()
+                        email_verified_at: new Date().toString()
                     };
 
-                    await fetch('/register/update-staff', {
+                    await fetch('/register/update-member', {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json',
@@ -63,7 +63,7 @@
                         body: JSON.stringify(formData)
                     });
                     // Step 3: Redirect to dashboard after registration is complete
-                    window.location.href = '/staff';
+                    window.location.href = '/member';
                     await supabase.auth.signOut();
                 } catch (err) {
                     console.error('Error:', err);

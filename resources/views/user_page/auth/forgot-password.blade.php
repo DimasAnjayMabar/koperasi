@@ -1,4 +1,4 @@
-@extends('app')
+@extends('user_page.app')
 
 @section('content')
     <section class="h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">

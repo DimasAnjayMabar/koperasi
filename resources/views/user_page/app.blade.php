@@ -15,8 +15,8 @@
     <script>
         // Initialize Supabase and make it globally available
         window.supabase = supabase.createClient(
-            '{{ env("VITE_SUPABASE_URL") }}',
-            '{{ env("VITE_SUPABASE_KEY") }}'
+            '{{ env("USER_SUPABASE_URL") }}',
+            '{{ env("USER_SUPABASE_KEY") }}'
         );
     </script>
 

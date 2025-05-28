@@ -1,10 +1,10 @@
-@extends('app')
+@extends('admin_page.app')
 
 @section('content')
-    <section class="h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <section class="flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12">
         <div class="w-full max-w-md p-6 space-y-4 bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
             <div class="text-center">
-                <a href="#" class="flex justify-center items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                <a href="#" class="flex justify-center items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
                     <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
                     Travel App
                 </a>
@@ -14,54 +14,56 @@
             </div>
 
             <!-- Add id="register-form" to your form -->
-            <form id="register-form" class="space-y-4">
+            <form id="register-form" class="space-y-3">
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                    <input type="email" id="email" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="name@company.com" required>
+                    <label for="email" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                    <input type="email" id="email" class="w-full p-2 text-sm rounded-lg border bg-gray-50 text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="name@company.com" required>
                 </div>
 
                 <!-- Name/Username -->
                 <div>
-                    <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your username</label>
-                    <input type="text" id="username" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
+                    <label for="username" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Your username</label>
+                    <input type="text" id="username" class="w-full p-2 text-sm rounded-lg border bg-gray-50 text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
                 </div>
 
                 <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
-                    <input type="text" id="name" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
+                    <label for="name" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
+                    <input type="text" id="name" class="w-full p-2 text-sm rounded-lg border bg-gray-50 text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
                 </div>
 
                 <!-- Name/Username -->
                 <div>
-                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your phone number</label>
-                    <input type="phone" id="phone" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
+                    <label for="phone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Your phone number</label>
+                    <input type="phone" id="phone" class="w-full p-2 text-sm rounded-lg border bg-gray-50 text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="username123" required>
                 </div>
 
                 <!-- Password -->
                 <div>
-                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input type="password" id="password" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="••••••••" required>
-                    <p id="password-error" class="mt-2 text-sm text-red-600 dark:text-red-500 hidden">
+                    <label for="password" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                    <input type="password" id="password" class="w-full p-2 text-sm rounded-lg border bg-gray-50 text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="••••••••" required>
+                    <p id="password-error" class="mt-1 text-xs text-red-600 dark:text-red-500 hidden">
                         <span class="font-medium">Oops!</span> Passwords do not match.
                     </p>
                 </div>
 
                 <!-- Confirm Password -->
                 <div>
-                    <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                    <input type="password" id="confirm-password" class="w-full p-2.5 rounded-lg border bg-gray-50 text-sm text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="••••••••" required>
-                    <p id="confirm-password-error" class="mt-2 text-sm text-red-600 dark:text-red-500 hidden">
+                    <label for="confirm-password" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
+                    <input type="password" id="confirm-password" class="w-full p-2 text-sm rounded-lg border bg-gray-50 text-gray-900 border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="••••••••" required>
+                    <p id="confirm-password-error" class="mt-1 text-xs text-red-600 dark:text-red-500 hidden">
                         <span class="font-medium">Oops!</span> Passwords do not match.
                     </p>
                 </div>
 
                 <!-- Upload Image -->
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload profile picture (optional)</label>
-                <input id="profile" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload profile picture (optional)</label>
+                    <input id="profile" class="block w-full text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
+                </div>
 
                 <!-- Submit -->
-                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create an account</button>
+                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create an account</button>
 
                 <!-- Login -->
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
@@ -114,6 +116,12 @@
                             email,
                             password, 
                             options : {
+                                data : {
+                                    username,
+                                    name,
+                                    phone,
+                                    role: 'staff'
+                                },
                                 emailRedirectTo : "{{ route('staff-verify-success') }}"
                             }
                         });
@@ -144,7 +152,7 @@
                             const data = await response.json();
                             throw new Error(data.message || 'Failed to register user in MySQL');
                         }
-
+                        
                         localStorage.setItem('pending_verification_email', email);
                         // Optional: also pass in query string
                         window.location.href = "{{ route('staff-verify-email') }}";

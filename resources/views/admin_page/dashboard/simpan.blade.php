@@ -1,4 +1,4 @@
-@extends('app')
+@extends('admin_page.app')
 
 @section('content')
     <style>
@@ -254,7 +254,8 @@
                 <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                 <span class="sr-only">Close menu</span>
             </button>
-            <div class="grid gap-4"> <!-- Slightly increased gap for cleaner spacing -->
+            <div class="grid gap-4">
+                <!-- This section goes to users table -->
                 <div>
                   <label for="email" class="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">Email</label>
                   <input
@@ -329,8 +330,6 @@
                     </div>
                 </div>
                   
-                  
-              
                 <div>
                   <label for="name" class="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">Name</label>
                   <input
@@ -357,7 +356,7 @@
               
                 <div>
                   <span class="block mb-1 text-xs font-semibold text-gray-800 dark:text-gray-200">Member Profile</span>
-                  <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-md cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-700 transition">
+                  <label for="profile" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-md cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-700 transition">
                     <div class="flex flex-col items-center justify-center pt-3 pb-3">
                       <svg aria-hidden="true" class="w-6 h-6 mb-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
@@ -365,10 +364,11 @@
                       <p class="text-xs text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag</p>
                       <p class="text-[10px] text-gray-500 dark:text-gray-400">SVG, PNG, JPG, GIF (800x400px max)</p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden">
+                    <input id="profile" type="file" class="hidden">
                   </label>
                 </div>
-              
+                
+                <!-- This section goes to history table then divide to member account table-->
                 <div>
                   <label for="deposit" class="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">Deposit</label>
                   <input
@@ -520,6 +520,7 @@
         
                 // Save auth session state
                 sessionStorage.setItem('loggedIn', 'true');
+                sessionStorage.setItem('staffId', user.id);
         
                 // Prevent back button
                 history.pushState(null, null, window.location.href);
@@ -599,6 +600,89 @@
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
                 eyeIcon.classList.toggle('text-blue-600');
+            });
+        </script>
+
+        <!-- Register Member -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const addMemberForm = document.getElementById('add-member');
+
+                addMemberForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    // Get form values
+                    const username = document.getElementById('username').value;
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    const deposit = parseFloat(document.getElementById('deposit').value);
+                    const file = document.getElementById('profile').files[0];
+
+                    // Reset error states
+                    const passwordInput = document.getElementById('password');
+                    const confirmPasswordInput = document.getElementById('confirm-password');
+                    [passwordInput, confirmPasswordInput].forEach(el => {
+                        el.classList.remove('border-red-500', 'bg-red-50', 'text-red-900');
+                    });
+
+                    // Validate passwords match
+                    if (password !== confirmPassword) {
+                        [passwordInput, confirmPasswordInput].forEach(el => {
+                            el.classList.add('border-red-500', 'bg-red-50', 'text-red-900');
+                        });
+                        alert('Passwords do not match!');
+                        return;
+                    }
+
+                    try {
+                        // Prepare form data for Laravel controller
+                        const formData = new FormData();
+                        const staffId = sessionStorage.getItem('staffId');
+
+                        formData.append('staff_id', staffId);
+                        formData.append('email', email);
+                        formData.append('name', name);
+                        formData.append('username', username);
+                        formData.append('phone', phone);
+                        formData.append('password', password); // Send password to backend
+                        formData.append('confirm_password', confirmPassword); // Optional, for extra check
+                        formData.append('profile', file || '');
+                        formData.append('role', 'member');
+                        formData.append('deposit', deposit);
+
+                        const response = await fetch('/register/new-member', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            }
+                        });
+
+                        if (!response.ok) {
+                            const data = await response.json();
+                            throw new Error(data.message || 'Failed to register member.');
+                        }
+
+                        alert('Member registered successfully!');
+                        closeMemberDrawer();
+                        // Optional: refresh list or do something else
+                        // window.location.reload();
+
+                    } catch (error) {
+                        console.error('Registration failed:', error);
+                        alert(`Registration failed: ${error.message}`);
+                    }
+                });
+
+                // Function to close the drawer
+                function closeMemberDrawer() {
+                    const drawer = document.getElementById('add-member');
+                    drawer.classList.add('-translate-x-full');
+                    drawer.setAttribute('aria-hidden', 'true');
+                }
             });
         </script>
     @endpush

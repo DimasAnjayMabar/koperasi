@@ -24,9 +24,13 @@ Route::get('/staff/verify-success', function() {
     return view('admin_page.auth.verify-success');
 })->name('staff-verify-success');
 
-Route::post('/register/new-staff', [RegisterController::class, 'register']);
+Route::post('/register/new-staff', [RegisterController::class, 'registerStaff']);
 
-Route::post('/register/update-staff', [RegisterController::class, 'checkUserExist']);
+Route::post('/register/new-member', [RegisterController::class, 'registerMember']);
+
+Route::post('/register/update-staff', [RegisterController::class, 'verifyStaff']);
+
+Route::post('/register/update-member', [RegisterController::class, 'verifyMember']);
 
 Route::get('/staff/find-email', function () {
     return view('admin_page.auth.find-email');
@@ -87,3 +91,7 @@ Route::get('member/dashboard/account', function(){
 Route::get('member/dashoboard/profile', function(){
     return view('user_page.dashboard.profile');
 })->name('member-profile');
+
+Route::get('/member/register', function(){
+    return view('user_page.auth.verify-success');
+})->name('member-verify-success');
