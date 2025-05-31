@@ -95,3 +95,7 @@ Route::get('member/dashoboard/profile', function(){
 Route::get('/member/register', function(){
     return view('user_page.auth.verify-success');
 })->name('member-verify-success');
+
+Route::get('/member/new-member', function (){
+    return view('user_page.auth.register-page');
+})->name('member-register');

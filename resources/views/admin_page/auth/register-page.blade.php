@@ -128,6 +128,8 @@
 
                         if (signupError) throw signupError;
 
+                        await supabase.auth.signOut();
+
                         const user = signupData?.user;
                         if (!user) throw new Error('Supabase registration failed.');
 
