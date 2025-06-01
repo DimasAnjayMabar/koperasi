@@ -347,7 +347,7 @@
 
     @push('scripts')
         <!-- Auth Script -->
-        {{-- <script>
+        <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const { data: { user }, error } = await window.supabase.auth.getUser();
         
@@ -395,7 +395,7 @@
                     });
                 }
             });
-        </script> --}}
+        </script>
 
         <!-- Sidebar Script -->
         <script>

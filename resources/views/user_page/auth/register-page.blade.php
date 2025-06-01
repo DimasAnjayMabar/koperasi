@@ -211,7 +211,7 @@
                                 phone: formData.phone,
                                 role: 'member'
                             },
-                            emailRedirectTo: `{{ route('member') }}`
+                            emailRedirectTo: `{{ route('member-verify-success') }}`
                         }
                     });
 
@@ -244,8 +244,8 @@
                         throw new Error(errorData.message || 'Backend registration failed');
                     }
 
-                    alert('Member registered! Check email for confirmation.');
-                    closeMemberDrawer();
+                    localStorage.setItem('pending_verification_email', email);
+                    window.location.href = "{{ route('member-verify-email') }}"
 
                 } catch (error) {
                     console.error('Registration error:', error);

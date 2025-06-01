@@ -99,3 +99,7 @@ Route::get('/member/register', function(){
 Route::get('/member/new-member', function (){
     return view('user_page.auth.register-page');
 })->name('member-register');
+
+Route::get('/member/verify-email', function (){
+    return view('user_page.auth.verify-email');
+})->name('member-verify-email');

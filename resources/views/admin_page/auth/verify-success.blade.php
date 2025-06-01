@@ -51,7 +51,7 @@
                 try {
                     const formData = {
                         id: user.id, 
-                        email_verified_at: new Date()
+                        email_verified_at: new Date(), 
                     };
 
                     await fetch('/register/update-staff', {

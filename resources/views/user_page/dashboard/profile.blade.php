@@ -141,7 +141,7 @@
     </form>
 
     @push('scripts')
-        {{-- <script>
+        <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const { data: { user }, error } = await window.supabase.auth.getUser();
         
@@ -199,7 +199,7 @@
                 }
             });
         });
-        </script> --}}
+        </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {

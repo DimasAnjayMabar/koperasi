@@ -24,14 +24,14 @@
             </div>
 
             <!-- Automatic redirect to dashboard -->
-            <a href="{{ route('staff') }}" class="block w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <a href="{{ route('member') }}" class="block w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Continue
             </a>
 
             <!-- Alternative: Auto-redirect with JavaScript -->
             <script>
                 setTimeout(() => {
-                    window.location.href = "{{ route('staff') }}";
+                    window.location.href = "{{ route('member') }}";
                 }, 3000); // Redirect after 3 seconds
             </script>
         </div>
@@ -51,7 +51,8 @@
                 try {
                     const formData = {
                         id: user.id, 
-                        email_verified_at: new Date().toString()
+                        email_verified_at: new Date(),
+                        is_active: true
                     };
 
                     await fetch('/register/update-member', {

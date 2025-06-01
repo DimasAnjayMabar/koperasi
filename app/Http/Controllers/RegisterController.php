@@ -53,7 +53,7 @@ class RegisterController extends Controller
     {
         $request->validate([
             'id' => 'required|exists:users,id',
-            'email_verified_at' => 'nullable|date'
+            'email_verified_at' => 'nullable|date',
         ]);
 
         try {
@@ -68,6 +68,47 @@ class RegisterController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update user'
+            ], 500);
+        }
+    }
+
+    public function verifyMember(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:users,id',
+            'email_verified_at' => 'nullable|date',
+            'is_active' => 'boolean'
+        ]);
+
+        try {
+            // Start a database transaction
+            DB::beginTransaction();
+
+            // Update the user's email verification status
+            $user = User::findOrFail($request->id);
+            $user->update($request->only('email_verified_at'));
+            
+            // Update the member_account's is_active status if it exists in the request
+            if ($request->has('is_active')) {
+                DB::table('member_accounts')
+                    ->where('member_id', $request->id) // assuming there's a user_id column
+                    ->update(['is_active' => $request->is_active]);
+            }
+
+            // Commit the transaction
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'User updated successfully'
+            ]);
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of error
+            DB::rollBack();
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update user: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -102,10 +143,13 @@ class RegisterController extends Controller
                 'phone' => $validated['phone'],
                 'role' => 'member',
                 'email_verified_at' => null, // Will be updated when email is confirmed
+                'created_at' => now(),
+                'updated_at' => now()
             ];
 
             if ($request->hasFile('profile')) {
-                $userData['profile'] = $request->file('profile')->store('profiles', 'public');
+                $path = $request->file('profile')->store("profiles/{$request->id}", 'public');
+                $userData['profile'] = Storage::url($path);  // Add this line to match staff registration
             }
 
             DB::table('users')->insert($userData);
