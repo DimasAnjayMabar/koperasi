@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\StaffDashboard;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,9 +49,7 @@ Route::get('/staff/verify-password', function() {
     return view('admin_page.auth.verify-password');
 });
 
-Route::get('/staff/dashboard/simpan', function() {
-    return view('admin_page.dashboard.simpan');
-})->name('simpan');
+Route::get('/staff/dashboard/simpan', [StaffDashboard::class, 'getMemberAccount'])->name('simpan');
 
 Route::get('/staff/dashboard/history', function() {
     return view('admin_page.dashboard.histories');
@@ -103,3 +102,4 @@ Route::get('/member/new-member', function (){
 Route::get('/member/verify-email', function (){
     return view('user_page.auth.verify-email');
 })->name('member-verify-email');
+
