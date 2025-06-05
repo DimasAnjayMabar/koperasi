@@ -26,11 +26,17 @@
                         </p>
                     </div>
 
-                    <button type="submit" 
-                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                        Send Reset Link
-                    </button>
+                    <div class="flex gap-4">
+                        <button type="submit"
+                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Send Reset Link
+                        </button>
+
+                        <a href="{{ route('simpan') }}"
+                            class="w-full text-center text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                            Back
+                        </a>
+                    </div>
                 </form>
 
                 <div id="verification-status" class="hidden mt-4 text-sm text-green-600 dark:text-green-400"></div>

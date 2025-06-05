@@ -103,3 +103,4 @@ Route::get('/member/verify-email', function (){
     return view('user_page.auth.verify-email');
 })->name('member-verify-email');
 
+Route::get('preview-member/{id}', [StaffDashboard::class, 'previewMemberAccount']);

@@ -151,7 +151,9 @@
                                                 </svg>
                                                 Edit
                                             </button>
-                                            <button type="button" data-drawer-target="read-member" data-drawer-show="read-member" aria-controls="read-member" class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                            <button type="button" 
+                                                data-id="{{ $member->id }}" 
+                                                class="preview-button py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
                                                     <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
                                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
@@ -261,48 +263,54 @@
             <div>
                 <h4 id="read-drawer-label" class="mb-5 leading-none text-xl font-semibold text-gray-900 dark:text-white">Member Name</h4>
             </div>
-            <button type="button" data-drawer-dismiss="read-member" aria-controls="read-member" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <button type="button" 
+                data-drawer-hide="read-member" 
+                aria-controls="read-member" 
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
                 <span class="sr-only">Close menu</span>
             </button>
             <div class="grid grid-cols-3 gap-4 mb-4 sm:mb-5">
-                <div class="p-2 w-auto bg-gray-100 rounded-lg dark:bg-gray-700">
-                    <img src="https://flowbite.s3.amazonaws.com/blocks/application-ui/products/imac-side-image.png" alt="Member profile picture">
+                <div id="member-profile" class="p-2 w-auto bg-gray-100 rounded-lg dark:bg-gray-700">
+                    <img src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Member profile picture">
                 </div>
             </div> 
             <dl class="grid grid-cols-2 gap-4 mb-4">
                 <div class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Member email</dt>
-                    <dd class="flex items-center text-gray-500 dark:text-gray-400">
+                    <dd id="member-email" class="flex items-center text-gray-500 dark:text-gray-400">
                         member1@test.com
                     </dd>
                 </div>
                 <div class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Member Phone</dt>
-                    <dd class="flex items-center text-gray-500 dark:text-gray-400">
+                    <dd id="member-phone" class="flex items-center text-gray-500 dark:text-gray-400">
                         12345678
                     </dd>
                 </div>
                 <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Simpanan Pokok</dt>
                     <dd class="text-gray-500 dark:text-gray-400">
-                        <dd class="flex items-center text-gray-500 dark:text-gray-400">
+                        <dd id="member-simpanan-pokok" class="flex items-center text-gray-500 dark:text-gray-400">
                             Rp. 100.000
                         </dd>
                     </dd>
                 </div>
-                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Simpanan Wajib</dt><dd class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
-                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Simpanan Sukarela</dt><dd class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
-                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Sibuhar</dt><dd class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
-                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Debt</dt><dd class="text-gray-500 dark:text-gray-400">Rp. 0</dd></div>
+                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Simpanan Wajib</dt><dd id="member-simpanan-wajib" class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
+                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Simpanan Sukarela</dt><dd id="member-simpanan-sukarela" class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
+                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Sibuhar</dt><dd id="member-sibuhar" class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
+                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Debt</dt><dd id="member-debt" class="text-gray-500 dark:text-gray-400">Rp. 0</dd></div>
             </dl>
             <div class="flex bottom-0 left-0 justify-center pb-4 space-x-4 w-full">
                 <button type="button" data-drawer-dismiss="read-member" aria-controls="read-member" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                     Deposit Simpanan <!-- To do : tambah modal deposit untuk memilih deposit kemana, sibuhar atau wajib -->
                 </button>
-                <button type="button" data-drawer-dismiss="read-member" aria-controls="read-member" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                <button type="button" 
+                    data-drawer-hide="read-member" 
+                    aria-controls="read-member" 
+                    class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                     Back
                 </button>
             </div>
@@ -417,6 +425,63 @@
                         sidebar.classList.add('-translate-x-full');
                         overlay.classList.add('hidden');
                     }
+                });
+            });
+        </script>
+
+        <!-- Preview Member Account Script -->
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll(".preview-button").forEach(button => {
+                    button.addEventListener("click", () => {
+                        const memberId = button.getAttribute("data-id");
+
+                        fetch(`/preview-member/${memberId}`)
+                            .then(res => {
+                                if (!res.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return res.json();
+                            })
+                            .then(data => {
+                                // Update all fields
+                                document.getElementById("read-drawer-label").innerText = data.name || 'N/A';
+                                
+                                // Correctly target the img tag inside #member-profile
+                                const profileImg = document.querySelector("#member-profile img");
+                                if (profileImg) {
+                                    profileImg.src = data.profile || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg';
+                                }
+                                
+                                document.getElementById("member-email").innerText = data.email || 'N/A';
+                                document.getElementById("member-phone").innerText = data.phone || 'N/A';
+                                document.getElementById("member-simpanan-pokok").innerText = `Rp. ${data.simpanan_pokok?.toLocaleString() || '0'}`;
+                                document.getElementById("member-simpanan-wajib").innerText = `Rp. ${data.simpanan_wajib?.toLocaleString() || '0'}`;
+                                document.getElementById("member-simpanan-sukarela").innerText = `Rp. ${data.simpanan_sukarela?.toLocaleString() || '0'}`;
+                                document.getElementById("member-sibuhar").innerText = `Rp. ${data.sibuhar?.toLocaleString() || '0'}`;
+                                document.getElementById("member-debt").innerText = `Rp. ${data.debt?.toLocaleString() || '0'}`;
+
+                                // Show modal - make sure this is the correct way to show your modal
+                                const modal = document.getElementById("read-member");
+                                modal.classList.remove("-translate-x-full");
+                                modal.setAttribute('aria-hidden', 'false');
+                            })
+                            .catch(error => {
+                                console.error('Error fetching member data:', error);
+                                // You might want to show an error message to the user here
+                            });
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            // Add this to your existing JavaScript
+            document.querySelectorAll('[data-drawer-hide="read-member"]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = document.getElementById('read-member');
+                    modal.classList.add('-translate-x-full');
+                    modal.setAttribute('aria-hidden', 'true');
                 });
             });
         </script>
