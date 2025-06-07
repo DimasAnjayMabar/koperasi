@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MemberDashboard;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StaffDashboard;
 use App\Http\Controllers\UserController;
@@ -41,27 +42,25 @@ Route::get('/staff/forgot-password', function() {
     return view('admin_page.auth.forgot-password');
 });
 
-Route::post('/get-staff', [UserController::class, 'getInfo']);
+Route::post('/get-staff', [StaffDashboard::class, 'getStaff']);
 
-Route::post('/get-member', [UserController::class, 'getInfo']);
+Route::post('/get-member', [MemberDashboard::class, 'getMember']);
 
 Route::get('/staff/verify-password', function() {
     return view('admin_page.auth.verify-password');
 });
 
-Route::get('/staff/dashboard/simpan', [StaffDashboard::class, 'getMemberAccount'])->name('simpan');
+Route::get('/staff/dashboard/history', [StaffDashboard::class,'getHistoryTransaction'])->name('history');
 
-Route::get('/staff/dashboard/history', function() {
-    return view('admin_page.dashboard.histories');
-})->name('history');
+Route::get('/staff/dashboard/simpan', [StaffDashboard::class, 'getMemberAccount'])->name('simpan');
 
 Route::get('/staff/dashboard/profile', function() {
     return view('admin_page.dashboard.profile');
 })->name('staff-profile');
 
-Route::post('/resolve-email-staff', [UserController::class, 'getEmail']);
+Route::post('/resolve-email-staff', [UserController::class, 'loginStaff']);
 
-Route::post('/resolve-email-member', [UserController::class, 'getEmail']);
+Route::post('/resolve-email-member', [UserController::class, 'loginMember']);
 
 Route::get('/member/login', function(){
     return view ('user_page.auth.login-page');

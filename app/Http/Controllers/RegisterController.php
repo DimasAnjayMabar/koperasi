@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
+use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,13 +18,12 @@ class RegisterController extends Controller
     {
         // ✅ Validate request
         $request->validate([
-            'id' => 'required|string|unique:users,id',
-            'email' => 'required|email|unique:users,email',
+            'supabase_id' => 'required|string|unique:users,id',
             'name' => 'required|string',
-            'username' => 'required|string',
+            'email' => 'required|email|unique:users,email',
             'phone' => 'string',
+            'username' => 'required|string',
             'profile' => 'nullable|image|max:2048',
-            'role' => 'string'
         ]);
 
         // ✅ Handle optional profile upload
@@ -32,19 +33,14 @@ class RegisterController extends Controller
         }
 
         // ✅ Save user
-        $user = User::create([
-            'id' => $request->input('id'),
-            'email' => $request->input('email'),
-            'username' => $request->input('username'),
+        Staff::create([
+            'supabase_id' => $request->input('supabase_id'),
             'name' => $request -> input('name'),
+            'email' => $request->input('email'),
             'phone' => $request->input('phone'),
-            'profile' => $path ? Storage::url($path) : null,
-            'role' => $request->input('role')
+            'username' => $request->input('username'),
+            'profile' => $path ? Storage::url($path) : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
         ]);
-
-        // ✅ Debug log (for development)
-        Log::info('New user registration', $request->except('profile')); // Avoid logging files
-        // dd($request->all()); // Only for debugging — remove for production
 
         return response()->json(['message' => 'User registered in MySQL']);
     }
@@ -52,12 +48,12 @@ class RegisterController extends Controller
     public function verifyStaff(Request $request)
     {
         $request->validate([
-            'id' => 'required|exists:users,id',
+            'supabase_id' => 'required|exists:staffs,supabase_id',
             'email_verified_at' => 'nullable|date',
         ]);
 
         try {
-            $user = User::findOrFail($request->id);
+            $user = Staff::findOrFail($request->supabase_id);
             $user->update($request->only('email_verified_at'));
             
             return response()->json([
@@ -75,7 +71,7 @@ class RegisterController extends Controller
     public function verifyMember(Request $request)
     {
         $request->validate([
-            'id' => 'required|exists:users,id',
+            'supabase_id' => 'required|exists:members,supabase_id',
             'email_verified_at' => 'nullable|date',
             'is_active' => 'boolean'
         ]);
@@ -85,13 +81,13 @@ class RegisterController extends Controller
             DB::beginTransaction();
 
             // Update the user's email verification status
-            $user = User::findOrFail($request->id);
+            $user = Member::findOrFail($request->supabase_id);
             $user->update($request->only('email_verified_at'));
             
             // Update the member_account's is_active status if it exists in the request
             if ($request->has('is_active')) {
                 DB::table('member_accounts')
-                    ->where('member_id', $request->id) // assuming there's a user_id column
+                    ->where('member_id', $request->supabase_id) 
                     ->update(['is_active' => $request->is_active]);
             }
 
@@ -118,30 +114,28 @@ class RegisterController extends Controller
         try {
             // Validate the request
             $validated = $request->validate([
-                'id' => 'required|string|unique:users,id',
-                'email' => 'required|email|unique:users,email',
+                'supabase_id' => 'required|string|unique:members,supabase_id',
                 'name' => 'required|string|max:255',
-                'username' => 'required|string|unique:users,username',
+                'email' => 'required|email|unique:users,email',
                 'phone' => 'required|string',
-                'deposit' => 'required|numeric|min:0',
+                'username' => 'required|string|unique:users,username',
+                'amount' => 'required|numeric|min:0',
                 'staff_id' => [
                     'required',
-                    Rule::exists('users', 'id')->where('role', 'staff'),
+                    Rule::exists('staffs', 'supabase_id'),
                 ],
                 'profile' => 'nullable|image|max:2048',
-                'role' => 'required|in:member,staff,admin' // Add role validation
             ]);
 
             DB::beginTransaction();
 
             // 1. Create user in MySQL
             $userData = [
-                'id' => $validated['id'],
-                'email' => $validated['email'],
+                'supabase_id' => $validated['supabase_id'],
                 'name' => $validated['name'],
-                'username' => $validated['username'],
+                'email' => $validated['email'],
                 'phone' => $validated['phone'],
-                'role' => 'member',
+                'username' => $validated['username'],
                 'email_verified_at' => null, // Will be updated when email is confirmed
                 'created_at' => now(),
                 'updated_at' => now()
@@ -149,26 +143,26 @@ class RegisterController extends Controller
 
             if ($request->hasFile('profile')) {
                 $path = $request->file('profile')->store("profiles/{$request->id}", 'public');
-                $userData['profile'] = Storage::url($path);  // Add this line to match staff registration
+                $userData['profile'] = $path? Storage::url($path) : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg';  // Add this line to match staff registration
             }
 
-            DB::table('users')->insert($userData);
+            DB::table('members')->insert($userData);
 
             // 2. Create member account with initial zero balances
             $accountId = DB::table('member_accounts')->insertGetId([
-                'member_id' => $validated['id'],
+                'member_id' => $validated['supabase_id'],
                 'simpanan_pokok' => 0,
                 'simpanan_wajib' => 0,
                 'simpanan_sukarela' => 0,
                 'sibuhar' => 0,
-                'debt' => 0,
+                'loan' => 0,
                 'is_active' => false, // Will activate after email confirmation
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
             // 3. Calculate and record initial deposits
-            $deposit = $validated['deposit'];
+            $deposit = $validated['amount'];
             $allocations = [
                 'simpanan_pokok' => $deposit * 0.5,
                 'simpanan_wajib' => $deposit * 0.25,
@@ -179,19 +173,18 @@ class RegisterController extends Controller
             $histories = [];
             foreach ($allocations as $type => $amount) {
                 $histories[] = [
-                    'account_id' => $accountId,
-                    'member_id' => $validated['id'],
+                    'member_account_id' => $accountId,
+                    'member_id' => $validated['supabase_id'],
                     'staff_id' => $validated['staff_id'],
                     'amount' => $amount,
                     'description' => "Initial deposit - " . ucfirst(str_replace('_', ' ', $type)),
-                    'direction' => $type,
                     'type' => 'deposit',
                     'created_at' => now(),
                     'updated_at' => now()
                 ];
             }
 
-            DB::table('histories')->insert($histories);
+            DB::table('transaction_history')->insert($histories);
 
             // Update account balances
             DB::table('member_accounts')->where('id', $accountId)->update($allocations + [
@@ -203,7 +196,7 @@ class RegisterController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Member records created successfully',
-                'user_id' => $validated['id']
+                'user_id' => $validated['supabase_id']
             ]);
 
         } catch (\Exception $e) {

@@ -116,7 +116,7 @@
                                     <th scope="col" class="p-4">Simpanan Wajib</th>
                                     <th scope="col" class="p-4">Simpanan Sukarela</th>
                                     <th scope="col" class="p-4">Sibuhar</th>
-                                    <th scope="col" class="p-4">Debt</th>
+                                    <th scope="col" class="p-4">Loan</th>
                                     <th scope="col" class="p-4">Actions</th>
                                 </tr>
                             </thead>
@@ -125,13 +125,13 @@
                                 <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 w-4">
                                         <div class="flex items-center">
-                                            <input id="checkbox-table-search-{{ $member->id }}" type="checkbox" onclick="event.stopPropagation()" class="w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="checkbox-table-search-{{ $member->id }}" class="sr-only">checkbox</label>
+                                            <input id="checkbox-table-search-{{ $member->supabase_id }}" type="checkbox" onclick="event.stopPropagation()" class="w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="checkbox-table-search-{{ $member->supabase_id }}" class="sr-only">checkbox</label>
                                         </div>
                                     </td>
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="flex items-center mr-3">
-                                            <img src="{{ $member->profile }}" alt="Member profile" class="h-8 w-auto mr-3">
+                                            <img src="{{ $member->profile ? $member->profile : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg' }}" alt="Member profile" class="h-8 w-auto mr-3">
                                             {{ $member->name }}
                                         </div>
                                     </th>
@@ -141,7 +141,7 @@
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $member->simpanan_wajib }}</td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $member->simpanan_sukarela }}</td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $member->sibuhar}}</td>
-                                    <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $member->debt}}</td>
+                                    <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $member->loan}}</td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="flex items-center space-x-4">
                                             <button type="button" data-drawer-target="edit-member" data-drawer-show="edit-member" aria-controls="edit-member" class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
@@ -152,7 +152,7 @@
                                                 Edit
                                             </button>
                                             <button type="button" 
-                                                data-id="{{ $member->id }}" 
+                                                data-id="{{ $member->supabase_id }}" 
                                                 class="preview-button py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
                                                     <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
@@ -301,7 +301,7 @@
                 <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Simpanan Wajib</dt><dd id="member-simpanan-wajib" class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
                 <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Simpanan Sukarela</dt><dd id="member-simpanan-sukarela" class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
                 <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Sibuhar</dt><dd id="member-sibuhar" class="text-gray-500 dark:text-gray-400">Rp. 100.000</dd></div>
-                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Debt</dt><dd id="member-debt" class="text-gray-500 dark:text-gray-400">Rp. 0</dd></div>
+                <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Loan</dt><dd id="member-debt" class="text-gray-500 dark:text-gray-400">Rp. 0</dd></div>
             </dl>
             <div class="flex bottom-0 left-0 justify-center pb-4 space-x-4 w-full">
                 <button type="button" data-drawer-dismiss="read-member" aria-controls="read-member" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">

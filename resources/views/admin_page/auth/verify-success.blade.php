@@ -32,7 +32,7 @@
             <script>
                 setTimeout(() => {
                     window.location.href = "{{ route('staff') }}";
-                }, 3000); // Redirect after 3 seconds
+                }, 3000);
             </script>
         </div>
     </section>
@@ -50,7 +50,7 @@
 
                 try {
                     const formData = {
-                        id: user.id, 
+                        supabase_id: user.id, 
                         email_verified_at: new Date(), 
                     };
 

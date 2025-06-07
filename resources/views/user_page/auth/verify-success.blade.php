@@ -50,7 +50,7 @@
 
                 try {
                     const formData = {
-                        id: user.id, 
+                        supabase_id: user.id, 
                         email_verified_at: new Date(),
                         is_active: true
                     };

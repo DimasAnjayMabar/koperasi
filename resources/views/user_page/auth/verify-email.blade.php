@@ -12,18 +12,23 @@
                     Verify Your Email Address
                 </h1>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                    We’ve sent a verification link to your email. Didn't receive it?
+                    We've sent a verification link to your email. Didn't receive it?
                 </p>
 
                 <div id="verification-status" class="hidden mt-4 text-sm"></div>
             </div>
-            <button 
-                id="resend-button" 
-                onclick="resendVerificationEmail()" 
-                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-                Resend Verification Email
-            </button>
+            <div class="flex space-x-4">
+                <button 
+                    id="resend-button" 
+                    onclick="resendVerificationEmail()" 
+                    class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                    Resend Verification Email
+                </button>
+                <a href="{{ route('simpan') }}" class="w-full text-center text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                    Back to Dashboard
+                </a>
+            </div>
         </div>
     </section>
 

@@ -57,23 +57,6 @@
                 }
         
                 try {
-                    // Step 1: Verify role is staff
-                    const response = await fetch('/get-staff', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
-                        body: JSON.stringify({ email })
-                    });
-        
-                    const data = await response.json();
-        
-                    if (!response.ok || data.role !== 'staff') {
-                        throw new Error(data.error || 'User is not staff');
-                    }
-        
-                    // Step 2: Trigger Supabase password reset
                     const { error } = await supabase.auth.resetPasswordForEmail(email, {
                         redirectTo: window.location.origin + '/staff/forgot-password'
                     });

@@ -97,11 +97,7 @@
 
                     const data = await response.json();
 
-                    if (!response.ok || !data.email || !data.role) {
-                        throw new Error(data.error || 'User not found');
-                    }
-
-                    const { email, role } = data;
+                    const { email } = data;
 
                     const { error } = await supabase.auth.signInWithPassword({
                         email,
@@ -110,13 +106,7 @@
 
                     if (error) throw error;
 
-                    // Role-based redirect
-                    if (role === 'staff') {
-                        window.location.href = "/staff/dashboard/simpan";
-                    } else {
-                        alert('This account is not staff');
-                    }
-
+                    window.location.href = "/staff/dashboard/simpan";
                 } catch (error) {
                     console.error(error);
 
@@ -148,7 +138,6 @@
                 const { data: { user }, error } = await window.supabase.auth.getUser();
 
                 if (user) {
-                    // Already logged in, redirect to dashboard
                     window.location.href = '/staff/dashboard/simpan';
                 }
             });

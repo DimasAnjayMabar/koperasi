@@ -120,7 +120,6 @@
                                     username,
                                     name,
                                     phone,
-                                    role: 'staff'
                                 },
                                 emailRedirectTo : "{{ route('staff-verify-success') }}"
                             }
@@ -128,19 +127,16 @@
 
                         if (signupError) throw signupError;
 
-                        await supabase.auth.signOut();
-
                         const user = signupData?.user;
                         if (!user) throw new Error('Supabase registration failed.');
 
                         const formData = new FormData();
-                        formData.append('id', user.id);
+                        formData.append('supabase_id', user.id);
+                        formData.append('name', name);
                         formData.append('email', email);
-                        formData.append('name', name)
-                        formData.append('username', username);
                         formData.append('phone', phone);
+                        formData.append('username', username);
                         formData.append('profile', file || '');
-                        formData.append('role', 'staff');
 
                         const response = await fetch('/register/new-staff', {
                             method: 'POST',

@@ -95,11 +95,7 @@
 
                         const data = await response.json();
 
-                        if (!response.ok || !data.email || !data.role) {
-                            throw new Error(data.error || 'User not found');
-                        }
-
-                        const { email, role } = data;
+                        const { email } = data;
 
                         const { error } = await supabase.auth.signInWithPassword({
                             email,
@@ -108,13 +104,7 @@
 
                         if (error) throw error;
 
-                        // Role-based redirect
-                        if (role === 'member') {
-                            window.location.href = "/member/dashboard/account";
-                        } else {
-                            alert('This account is not staff');
-                        }
-
+                        window.location.href = "/member/dashboard/account";
                     } catch (error) {
                         console.error(error);
 

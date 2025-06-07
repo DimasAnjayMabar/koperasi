@@ -40,56 +40,6 @@
                         required
                     >
                     </div>
-                
-                    <div>
-                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                        <div class="flex items-center gap-2">
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            style="width: 250px;" 
-                            placeholder="••••••••"
-                            required
-                        >
-                        <button type="button" id="toggle-password" aria-label="Toggle password visibility"
-                            class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
-                            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
-                        <div class="flex items-center gap-2">
-                        <input
-                            type="password"
-                            name="confirm-password"
-                            id="confirm-password"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            style="width: 250px;" 
-                            placeholder="••••••••"
-                            required
-                        >
-                        <button type="button" id="toggle-confirm-password" aria-label="Toggle confirm password visibility"
-                            class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
-                            <svg id="eye-icon-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
-                        </div>
-                    </div>
                     
                     <div>
                     <label for="name" class="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">Name</label>
@@ -132,6 +82,57 @@
                         placeholder="Rp. 100.000"
                         required
                     >
+                    </div>
+
+                    
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <div class="flex items-center gap-2">
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            style="width: 250px;" 
+                            placeholder="••••••••"
+                            required
+                        >
+                        <button type="button" id="toggle-password" aria-label="Toggle password visibility"
+                            class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+                        <div class="flex items-center gap-2">
+                        <input
+                            type="password"
+                            name="confirm-password"
+                            id="confirm-password"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            style="width: 250px;" 
+                            placeholder="••••••••"
+                            required
+                        >
+                        <button type="button" id="toggle-confirm-password" aria-label="Toggle confirm password visibility"
+                            class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                            <svg id="eye-icon-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                        </div>
                     </div>
                 </div>              
                 <div class="grid grid-cols-2 gap-3 mt-4">
@@ -209,7 +210,6 @@
                                 username: formData.username,
                                 name: formData.name,
                                 phone: formData.phone,
-                                role: 'member'
                             },
                             emailRedirectTo: `{{ route('member-verify-success') }}`
                         }
@@ -217,18 +217,15 @@
 
                     if (authError) throw new Error(authError.message);
 
-                    await supabase.auth.signOut();
-
                     // Step 2: Send data to Laravel backend
                     const laravelFormData = new FormData();
-                    laravelFormData.append('id', authData.user.id);
+                    laravelFormData.append('supabase_id', authData.user.id);
                     laravelFormData.append('staff_id', formData.staffId);
-                    laravelFormData.append('email', formData.email);
                     laravelFormData.append('name', formData.name);
-                    laravelFormData.append('username', formData.username);
+                    laravelFormData.append('email', formData.email);
                     laravelFormData.append('phone', formData.phone);
-                    laravelFormData.append('deposit', formData.deposit);
-                    laravelFormData.append('role', 'member');
+                    laravelFormData.append('username', formData.username);
+                    laravelFormData.append('amount', formData.deposit);
                     if (formData.file) laravelFormData.append('profile', formData.file);
 
                     const response = await fetch('/register/new-member', {
