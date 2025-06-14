@@ -103,3 +103,5 @@ Route::get('/member/verify-email', function (){
 })->name('member-verify-email');
 
 Route::get('preview-member/{id}', [StaffDashboard::class, 'previewMemberAccount']);
+
+Route::post('/edit/staff', [UserController::class, 'editStaff']);

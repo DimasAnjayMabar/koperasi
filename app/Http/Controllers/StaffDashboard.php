@@ -105,4 +105,8 @@ class StaffDashboard extends Controller
 
         return view('admin_page.dashboard.histories', compact('histories'));
     }
+
+    public function editMemberAccount($id){
+        
+    }
 }

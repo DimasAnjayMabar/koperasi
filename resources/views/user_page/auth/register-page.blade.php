@@ -241,7 +241,7 @@
                         throw new Error(errorData.message || 'Backend registration failed');
                     }
 
-                    localStorage.setItem('pending_verification_email', email);
+                    localStorage.setItem('member_pending_verification_email', email);
                     window.location.href = "{{ route('member-verify-email') }}"
 
                 } catch (error) {

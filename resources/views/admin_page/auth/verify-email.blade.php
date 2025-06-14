@@ -43,7 +43,7 @@
 
             try {
                 // First, try to get email from localStorage
-                let email = localStorage.getItem('pending_verification_email');
+                let email = localStorage.getItem('staff_pending_verification_email');
 
                 if (!email) {
                     statusEl.textContent = 'Email not found. Please register again.';
@@ -67,7 +67,7 @@
 
                 statusEl.textContent = `Verification email sent to ${email}`;
                 statusEl.className = 'text-green-600 dark:text-green-400';
-                localStorage.removeItem('pending_verification_email');
+                localStorage.removeItem('staff_pending_verification_email');
             } catch (error) {
                 console.error('Resend error:', error);
                 statusEl.textContent = error.message || 'Failed to resend verification email';

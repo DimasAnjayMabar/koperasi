@@ -122,14 +122,7 @@
             </div>
             <div>
                 <span class="block mb-1 text-xs font-medium text-gray-900 dark:text-white">Staff Profile</span>
-                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                    <div class="flex flex-col items-center justify-center pt-3 pb-3">
-                        <svg aria-hidden="true" class="w-6 h-6 mb-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                        <p class="text-xs text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag</p>
-                        <p class="text-[10px] text-gray-500 dark:text-gray-400">SVG, PNG, JPG, GIF (800x400px max)</p>
-                    </div>
-                    <input id="dropzone-file" type="file" class="hidden">
-                </label>
+                <input id="profile" class="block w-full text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
             </div>
         </div>
         <div class="grid grid-cols-2 gap-3 mt-4">
@@ -228,6 +221,54 @@
                         overlay.classList.add('hidden');
                     }
                 });
+            });
+        </script>
+
+        <script>
+            document.getElementById('edit-staff').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const staffId = user.id;
+                const nameInput = document.getElementById('name').value;
+                const emailInput = document.getElementById('email').value;
+                const phoneInput = document.getElementById('phone').value;
+                const profileInput = document.getElementById('profile').files[0];
+
+                const formData = new FormData();
+                formData.append('supabase_id', staffId);
+                formData.append('name', nameInput);
+                formData.append('email', emailInput);
+                formData.append('phone', phoneInput);
+                if (profileInput) {
+                    formData.append('profile', profileInput);
+                }
+
+                try {
+                    if (emailInput !== user.email) {
+                        const { data, error } = await supabase.auth.updateUser({
+                            email: emailInput,
+                            options: {
+                                emailRedirectTo: '{{ route("") }}'
+                            }
+                        });
+                        if (error) throw error;
+                    }
+
+                    const response = await fetch('/edit/staff', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+
+                    if (!response.ok) throw new Error("Gagal update staff");
+
+                    alert("Staff berhasil diperbarui!");
+                } catch (err) {
+                    console.error(err);
+                    alert("Terjadi kesalahan saat update.");
+                }
             });
         </script>
     @endpush
