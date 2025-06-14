@@ -7,7 +7,7 @@
 6. ada bug langsung laporan ya trims
 
 # CARA MEMAKAI 
-1. setup localhost laravel (run dev, artisan serve)
-2. database mysql local di run
-3. kalau dapet verif email, pastikan buka linknya di chrome yang sama dengan chrome untuk buka project local
-4. email dan verif login online, jadi aman mau login dimana aja
+1. setup localhost laravel (php artisan serve)
+2. database mysql local di run (atau langsung jalankan tanpa database local, sudah menggunakan cloud)
+3. kalau dapet verif email, pastikan buka linknya di chrome local
+4. login bisa online karena autentikasi dan database sudah menggunakan cloud
