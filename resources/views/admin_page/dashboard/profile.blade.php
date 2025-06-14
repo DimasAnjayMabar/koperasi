@@ -110,15 +110,15 @@
         <div class="grid gap-3">
             <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="John Doe" required="">
+                <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="John Doe">
             </div>
             <div>
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                <input type="text" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="domain@example.com" required="">
+                <input type="text" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="domain@example.com">
             </div>
             <div>
                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="12345678" required="">
+                <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="12345678">
             </div>
             <div>
                 <span class="block mb-1 text-xs font-medium text-gray-900 dark:text-white">Staff Profile</span>
@@ -195,65 +195,31 @@
         </script>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const links = document.querySelectorAll('[data-table]');
-                const container = document.getElementById('table-container');
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('sidebar-overlay');
-                const toggleButton = document.getElementById('hamburger');
-
-                // Toggle sidebar
-                toggleButton.addEventListener('click', function () {
-                    sidebar.classList.toggle('-translate-x-full');
-                    overlay.classList.toggle('hidden');
-                });
-
-                // Close sidebar on overlay click
-                overlay.addEventListener('click', function () {
-                    sidebar.classList.add('-translate-x-full');
-                    overlay.classList.add('hidden');
-                });
-
-                // Close sidebar on Escape key press
-                document.addEventListener('keydown', function (event) {
-                    if (event.key === 'Escape') {
-                        sidebar.classList.add('-translate-x-full');
-                        overlay.classList.add('hidden');
-                    }
-                });
-            });
-        </script>
-
-        <script>
             document.getElementById('edit-staff').addEventListener('submit', async function (e) {
                 e.preventDefault();
 
-                const staffId = user.id;
-                const nameInput = document.getElementById('name').value;
-                const emailInput = document.getElementById('email').value;
-                const phoneInput = document.getElementById('phone').value;
-                const profileInput = document.getElementById('profile').files[0];
-
-                const formData = new FormData();
-                formData.append('supabase_id', staffId);
-                formData.append('name', nameInput);
-                formData.append('email', emailInput);
-                formData.append('phone', phoneInput);
-                if (profileInput) {
-                    formData.append('profile', profileInput);
+                // Get current user and form data
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                if (authError) {
+                    console.error("Auth error:", authError);
+                    alert("Failed to verify user. Please reload and try again.");
+                    return;
                 }
+                const staffId = user.id;
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const profile = document.getElementById('profile').value;
+
+                const formData = new FormData(this);
+                formData.append('supabase_id', staffId);
+                formData.append('name', name || '');
+                formData.append('email', email || '');
+                formData.append('phone', phone || '');
+                formData.append('profile', profile || '');
 
                 try {
-                    if (emailInput !== user.email) {
-                        const { data, error } = await supabase.auth.updateUser({
-                            email: emailInput,
-                            options: {
-                                emailRedirectTo: '{{ route("") }}'
-                            }
-                        });
-                        if (error) throw error;
-                    }
-
+                    // (1) Always submit to backend first
                     const response = await fetch('/edit/staff', {
                         method: 'POST',
                         body: formData,
@@ -262,12 +228,28 @@
                         }
                     });
 
-                    if (!response.ok) throw new Error("Gagal update staff");
+                    if (!response.ok) throw new Error("Server update failed");
 
-                    alert("Staff berhasil diperbarui!");
+                    // (2) Handle email cases
+                    if (email && email !== user.email) {
+                        // New email provided - update Supabase auth
+                        const { error: updateError } = await supabase.auth.updateUser({
+                            email: email,
+                            options: {
+                                emailRedirectTo: '{{ route("change-email-success") }}'
+                            }
+                        });
+                        
+                        if (updateError) throw updateError;
+                        
+                        localStorage.setItem('staff_pending_verification_email');
+                    } else {
+
+                    }
+
                 } catch (err) {
-                    console.error(err);
-                    alert("Terjadi kesalahan saat update.");
+                    console.error("Update error:", err);
+                    alert("Error: " + err.message);
                 }
             });
         </script>

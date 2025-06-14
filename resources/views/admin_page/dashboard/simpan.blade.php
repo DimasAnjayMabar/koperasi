@@ -6,6 +6,11 @@
             -webkit-backdrop-filter: blur(4px); /* For Safari */
             backdrop-filter: blur(4px);
         }
+        /* Add this for the preview modal backdrop */
+        #read-member-backdrop {
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
     </style>
     <!-- Navbar -->
     <header class="antialiased">
@@ -279,6 +284,9 @@
             </div>
         </div>
 
+        <!-- Preview Member Modal Backdrop -->
+        <div id="read-member-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+
         <!-- Delete Member Modal -->
         <div id="delete-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative w-full h-auto max-w-md max-h-full">
@@ -395,22 +403,38 @@
         <!-- Preview Member Account Script -->
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                document.querySelectorAll(".preview-button").forEach(button => {
+                const previewButtons = document.querySelectorAll(".preview-button");
+                const previewModal = document.getElementById("read-member");
+                const previewBackdrop = document.getElementById("read-member-backdrop");
+                const closeButtons = document.querySelectorAll('[data-drawer-hide="read-member"]');
+
+                // Show modal function
+                const showPreviewModal = () => {
+                    previewModal.classList.remove("-translate-x-full");
+                    previewBackdrop.classList.remove("hidden");
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                };
+
+                // Hide modal function
+                const hidePreviewModal = () => {
+                    previewModal.classList.add("-translate-x-full");
+                    previewBackdrop.classList.add("hidden");
+                    document.body.style.overflow = ''; // Re-enable scrolling
+                };
+
+                // Button click handler
+                previewButtons.forEach(button => {
                     button.addEventListener("click", () => {
                         const memberId = button.getAttribute("data-id");
 
                         fetch(`/preview-member/${memberId}`)
                             .then(res => {
-                                if (!res.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
+                                if (!res.ok) throw new Error('Network response was not ok');
                                 return res.json();
                             })
                             .then(data => {
-                                // Update all fields
                                 document.getElementById("read-drawer-label").innerText = data.name || 'N/A';
                                 
-                                // Correctly target the img tag inside #member-profile
                                 const profileImg = document.querySelector("#member-profile img");
                                 if (profileImg) {
                                     profileImg.src = data.profile || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg';
@@ -424,16 +448,28 @@
                                 document.getElementById("member-sibuhar").innerText = `Rp. ${data.sibuhar?.toLocaleString() || '0'}`;
                                 document.getElementById("member-debt").innerText = `Rp. ${data.debt?.toLocaleString() || '0'}`;
 
-                                // Show modal - make sure this is the correct way to show your modal
-                                const modal = document.getElementById("read-member");
-                                modal.classList.remove("-translate-x-full");
-                                modal.setAttribute('aria-hidden', 'false');
+                                showPreviewModal();
                             })
                             .catch(error => {
                                 console.error('Error fetching member data:', error);
-                                // You might want to show an error message to the user here
+                                // Show error message to user
                             });
                     });
+                });
+
+                // Close modal when clicking backdrop
+                previewBackdrop.addEventListener('click', hidePreviewModal);
+
+                // Close modal when clicking close buttons
+                closeButtons.forEach(button => {
+                    button.addEventListener('click', hidePreviewModal);
+                });
+
+                // Close modal when pressing Escape key
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && !previewModal.classList.contains('-translate-x-full')) {
+                        hidePreviewModal();
+                    }
                 });
             });
         </script>

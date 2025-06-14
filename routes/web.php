@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MemberDashboard;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StaffDashboard;
 use App\Http\Controllers\UserController;
@@ -104,4 +105,12 @@ Route::get('/member/verify-email', function (){
 
 Route::get('preview-member/{id}', [StaffDashboard::class, 'previewMemberAccount']);
 
-Route::post('/edit/staff', [UserController::class, 'editStaff']);
+Route::post('/edit/staff', [ProfileController::class, 'updateStaff']);
+
+Route::get('/change-email-staff', function(){
+    return view('admin_page.auth.change-email');
+})->name('change-email');
+
+Route::get('/change-email-success', function(){
+    return view('admin_page.auth.change-email-success');
+})->name('change-email-success');
