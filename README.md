@@ -1,9 +1,9 @@
 # SETTING ENVIRONMENT DULU YA
 1. npm install
 2. composer install
-3. npm install flowbite
-4. tambah file .env dulu, minta aku
-5. php artisan migrate dulu buat tabel baru di localhost mysql
+3. npm install flowbite (untuk css)
+4. tambah file .env dulu di root project folder. bisa diambil di folder env
+5. tidak usah migrate karena database menggunakan cloud. jalankan php artisan serve dan website langsung jalan
 6. ada bug langsung laporan ya trims
 
 # CARA MEMAKAI 
