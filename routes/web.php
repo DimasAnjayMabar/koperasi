@@ -111,6 +111,10 @@ Route::get('/change-email-staff', function(){
     return view('admin_page.auth.change-email');
 })->name('change-email');
 
+Route::get('/change-email-verification', function(){
+    return view('admin_page.auth.change-email-verification');
+})->name('change-email-verification');
+
 Route::get('/change-email-success', function(){
     return view('admin_page.auth.change-email-success');
-})->name('change-email-success');
+});

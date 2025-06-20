@@ -114,7 +114,10 @@
             </div>
             <div>
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                <input type="text" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="" placeholder="domain@example.com">
+                <a href="{{ route('change-email') }}" 
+                class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Change Email
+                </a>
             </div>
             <div>
                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
@@ -194,6 +197,37 @@
         });
         </script>
 
+        <!-- Sidebar Script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const links = document.querySelectorAll('[data-table]');
+                const container = document.getElementById('table-container');
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                const toggleButton = document.getElementById('hamburger');
+
+                // Toggle sidebar
+                toggleButton.addEventListener('click', function () {
+                    sidebar.classList.toggle('-translate-x-full');
+                    overlay.classList.toggle('hidden');
+                });
+
+                // Close sidebar on overlay click
+                overlay.addEventListener('click', function () {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                });
+
+                // Close sidebar on Escape key press
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        sidebar.classList.add('-translate-x-full');
+                        overlay.classList.add('hidden');
+                    }
+                });
+            });
+        </script>
+
         <script>
             document.getElementById('edit-staff').addEventListener('submit', async function (e) {
                 e.preventDefault();
@@ -207,19 +241,14 @@
                 }
                 const staffId = user.id;
                 const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
                 const phone = document.getElementById('phone').value;
-                const profile = document.getElementById('profile').value;
+                const profileInput = document.getElementById('profile');
+                const profile = profileInput.files?.[0] ?? null;
 
                 const formData = new FormData(this);
                 formData.append('supabase_id', staffId);
-                formData.append('name', name || '');
-                formData.append('email', email || '');
-                formData.append('phone', phone || '');
-                formData.append('profile', profile || '');
 
                 try {
-                    // (1) Always submit to backend first
                     const response = await fetch('/edit/staff', {
                         method: 'POST',
                         body: formData,
@@ -228,25 +257,12 @@
                         }
                     });
 
-                    if (!response.ok) throw new Error("Server update failed");
-
-                    // (2) Handle email cases
-                    if (email && email !== user.email) {
-                        // New email provided - update Supabase auth
-                        const { error: updateError } = await supabase.auth.updateUser({
-                            email: email,
-                            options: {
-                                emailRedirectTo: '{{ route("change-email-success") }}'
-                            }
-                        });
-                        
-                        if (updateError) throw updateError;
-                        
-                        localStorage.setItem('staff_pending_verification_email');
-                    } else {
-
+                    const result = await response.json();
+                    if(response.ok){
+                        window.location.reload();
+                    }else{
+                        alert("Update failed: " + result.message);
                     }
-
                 } catch (err) {
                     console.error("Update error:", err);
                     alert("Error: " + err.message);

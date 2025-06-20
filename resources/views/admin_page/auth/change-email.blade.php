@@ -6,76 +6,55 @@
             <div class="text-center">
                 <a href="#" class="flex justify-center items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                     <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-                    Koperasi
+                    Koperasi  
                 </a>
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Email Change Detected
+                    Change Email
                 </h1>
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                    We’ve sent a verification link to your email. Didn't receive it?
-                </p>
-
-                <div id="verification-status" class="hidden mt-4 text-sm"></div>
             </div>
-            <button 
-                id="resend-button" 
-                onclick="resendVerificationEmail()" 
-                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-                Resend Verification Email
-            </button>
+            
+            <form class="space-y-4 md:space-y-6 max-w-sm mx-auto" action="#" id="change-email-form">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Email</label>
+                    <input type="email" name="email" id="email" placeholder="you@example.com"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required>
+                    <p id="email-error" class="mt-2 text-sm text-red-600 dark:text-red-500 hidden">
+                        <span class="font-medium">Oops!</span> Invalid email address
+                    </p>
+                </div>
+
+                <button type="submit"
+                    class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Change Email
+                </button>
+            </form>           
         </div>
     </section>
 
     @push('scripts')
-        <script>
-            async function resendVerificationEmail() {
-            const statusEl = document.getElementById('verification-status');
-            const resendBtn = document.getElementById('resend-button');
+        <script type="module">
+            const form = document.getElementById('change-email-form');
+            const emailInput = document.getElementById('email');
 
-            // UI Handling
-            resendBtn.disabled = true;
-            resendBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            setTimeout(() => {
-                resendBtn.disabled = false;
-                resendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            }, 60000);
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-            try {
-                // First, try to get email from localStorage
-                let email = localStorage.getItem('staff_pending_verification_email');
+                const email = emailInput.value;
+                const { error } = await supabase.auth.updateUser({ email });
 
-                if (!email) {
-                    statusEl.textContent = 'Email not found. Please register again.';
-                    statusEl.className = 'text-red-600 dark:text-red-400';
-                    statusEl.classList.remove('hidden');
-                    return;
-                }
+                if (error) {
+                    alert('Error updating email: ' + error.message);
+                } else {
+                    sessionStorage.setItem('pending_change_email_staff', email);
+                    try{
 
-                // Use signUp to resend verification email
-                const { error } = await supabase.auth.resend({
-                    type: 'signup',
-                    email,
-                    options: {
-                        options: {
-                            emailRedirectTo: "{{ route('staff-verify-success') }}"
-                        }
+                    }catch(e){
+                        
                     }
-                });
-
-                if (error) throw error;
-
-                statusEl.textContent = `Verification email sent to ${email}`;
-                statusEl.className = 'text-green-600 dark:text-green-400';
-                localStorage.removeItem('staff_pending_verification_email');
-            } catch (error) {
-                console.error('Resend error:', error);
-                statusEl.textContent = error.message || 'Failed to resend verification email';
-                statusEl.className = 'text-red-600 dark:text-red-400';
-            } finally {
-                statusEl.classList.remove('hidden');
-            }
-        }
+                    window.location.href = '{{ route('change-email-verification') }}';
+                }
+            });
         </script>
     @endpush
 @endsection

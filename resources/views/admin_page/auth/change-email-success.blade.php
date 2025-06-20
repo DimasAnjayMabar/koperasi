@@ -16,7 +16,7 @@
                 </div>
                 
                 <h1 class="mt-3 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Email Verified Successfully!
+                    Email Changed Successfully!
                 </h1>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                     Your email is changed

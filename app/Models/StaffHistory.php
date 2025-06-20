@@ -11,6 +11,8 @@ class StaffHistory extends Model
 
     protected $table = 'staffs_history';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'staff_id',
         'description',
