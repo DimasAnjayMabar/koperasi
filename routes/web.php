@@ -117,4 +117,6 @@ Route::get('/change-email-verification', function(){
 
 Route::get('/change-email-success', function(){
     return view('admin_page.auth.change-email-success');
-});
+})->name('change-email-success');
+
+Route::post('/edit/staff-email', [ProfileController::class, 'updateEmailStaff']);

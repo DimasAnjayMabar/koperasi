@@ -272,8 +272,14 @@
                 <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600"><dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Loan</dt><dd id="member-debt" class="text-gray-500 dark:text-gray-400">Rp. 0</dd></div>
             </dl>
             <div class="flex bottom-0 left-0 justify-center pb-4 space-x-4 w-full">
-                <button type="button" data-drawer-dismiss="read-member" aria-controls="read-member" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                    Deposit Simpanan <!-- To do : tambah modal deposit untuk memilih deposit kemana, sibuhar atau wajib -->
+                <button type="button" data-modal-target="modal-deposit-simpanan" data-modal-toggle="modal-deposit-simpanan" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Deposit Simpanan 
+                </button>
+                <button type="button" data-modal-target="modal-deposit-sibuhar" data-modal-toggle="modal-deposit-sibuhar" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Deposit Sibuhar 
+                </button>
+                <button type="button" data-modal-target="modal-take-loan" data-modal-toggle="modal-take-loan" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Take Loan
                 </button>
                 <button type="button" 
                     data-drawer-hide="read-member" 
@@ -281,6 +287,48 @@
                     class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                     Back
                 </button>
+            </div>
+        </div>
+
+        <div id="modal-deposit-simpanan" class="hidden fixed top-0 left-0 z-50 w-full h-full items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                <h2 class="text-lg font-semibold mb-4">Deposit Simpanan</h2>
+                <form action="/deposit-simpanan" method="POST">
+                    <input type="hidden" name="member_id" value="123" />
+                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" />
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" data-modal-hide="modal-deposit-simpanan" class="text-gray-500">Batal</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="modal-deposit-sibuhar" class="hidden fixed top-0 left-0 z-50 w-full h-full items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                <h2 class="text-lg font-semibold mb-4">Deposit Sibuhar</h2>
+                <form action="/deposit-simpanan" method="POST">
+                    <input type="hidden" name="member_id" value="123" />
+                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" />
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" data-modal-hide="modal-deposit-sibuhar" class="text-gray-500">Batal</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="modal-take-loan" class="hidden fixed top-0 left-0 z-50 w-full h-full items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                <h2 class="text-lg font-semibold mb-4">Take Loan</h2>
+                <form action="/deposit-simpanan" method="POST">
+                    <input type="hidden" name="member_id" value="123" />
+                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" />
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" data-modal-hide="modal-take-loan" class="text-gray-500">Batal</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -485,9 +533,5 @@
             });
         </script>
 
-        <!-- Edit Member Account Script -->
-        <script>
-
-        </script>
     @endpush
 @endsection

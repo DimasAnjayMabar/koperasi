@@ -6,6 +6,7 @@ use App\Models\Staff;
 use App\Models\StaffHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -61,5 +62,42 @@ class ProfileController extends Controller
         ]);
 
         return response()->json(['message' => 'Staff updated successfully.']);
+    }
+
+    public function updateEmailStaff(Request $request){
+        // Validasi langsung
+        $validated = $request->validate([
+            'staff_id' => 'required|exists:staffs,supabase_id',
+            'email' => 'required|email|unique:staffs,email',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Update email staff
+            DB::table('staffs')
+                ->where('supabase_id', $validated['staff_id'])
+                ->update([
+                    'email' => $validated['email'],
+                    'updated_at' => now(),
+                ]);
+
+            // Catat perubahan ke tabel history
+            DB::table('staffs_history')->insert([
+                'staff_id' => $validated['staff_id'],
+                'description' => 'Email staff diubah menjadi ' . $validated['email'],
+                'updated_at' => now(),
+            ]);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Email berhasil diperbarui.'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Gagal mengubah email.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

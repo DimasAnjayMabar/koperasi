@@ -52,7 +52,9 @@
 
                     const { error } = await supabase.auth.updateUser({ 
                         email, 
-                        options : {emailRedirectTo : window.location.origin + '/change-email-success'} 
+                        options : {
+                            emailRedirectTo : "{{ route('change-email-success') }}",
+                        } 
                     });
 
                     if (error) throw error;

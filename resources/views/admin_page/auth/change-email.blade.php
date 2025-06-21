@@ -41,17 +41,43 @@
                 e.preventDefault();
 
                 const email = emailInput.value;
-                const { error } = await supabase.auth.updateUser({ email });
+                const staffId = sessionStorage.getItem('staff_id');
+
+                const { error } = await supabase.auth.updateUser({ 
+                    email, 
+                    options : {
+                        emailRedirectTo : "{{ route('change-email-success') }}",
+                    } 
+                });
 
                 if (error) {
                     alert('Error updating email: ' + error.message);
                 } else {
                     sessionStorage.setItem('pending_change_email_staff', email);
-                    try{
 
-                    }catch(e){
-                        
+                    try {
+                        const response = await fetch('/edit/staff-email', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                email,
+                                staff_id: staffId
+                            })
+                        });
+
+                        if (!response.ok) {
+                            const resText = await response.text();
+                            console.error('Failed to post email:', resText);
+                            throw new Error('Gagal menyimpan email ke server');
+                        }
+                    } catch (e) {
+                        console.error('Error in fetch:', e);
+                        alert('Terjadi kesalahan saat menyimpan email ke server lokal.');
                     }
+
                     window.location.href = '{{ route('change-email-verification') }}';
                 }
             });
