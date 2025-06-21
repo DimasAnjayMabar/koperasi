@@ -120,3 +120,9 @@ Route::get('/change-email-success', function(){
 })->name('change-email-success');
 
 Route::post('/edit/staff-email', [ProfileController::class, 'updateEmailStaff']);
+
+Route::post('/staff/deposit-simpanan', [StaffDashboard::class, 'updateSimpananPokok']);
+
+Route::post('/staff/deposit-sibuhar', [StaffDashboard::class, 'updateSibuhar']);
+
+Route::post('/staff/take-loan', [StaffDashboard::class, 'takeLoan']);

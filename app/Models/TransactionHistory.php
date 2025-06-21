@@ -17,7 +17,7 @@ class TransactionHistory extends Model
         'member_id',
         'staff_id',
         'description',
-        'direction',
+        'type',
     ];
 
     protected $casts = [

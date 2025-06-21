@@ -293,9 +293,8 @@
         <div id="modal-deposit-simpanan" class="hidden fixed top-0 left-0 z-50 w-full h-full items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-lg p-6 w-full max-w-md">
                 <h2 class="text-lg font-semibold mb-4">Deposit Simpanan</h2>
-                <form action="/deposit-simpanan" method="POST">
-                    <input type="hidden" name="member_id" value="123" />
-                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" />
+                <form action="" method="POST" id="submit-simpanan">
+                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" id="amount-simpanan"/>
                     <div class="flex justify-end space-x-2">
                         <button type="button" data-modal-hide="modal-deposit-simpanan" class="text-gray-500">Batal</button>
                         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
@@ -307,9 +306,8 @@
         <div id="modal-deposit-sibuhar" class="hidden fixed top-0 left-0 z-50 w-full h-full items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-lg p-6 w-full max-w-md">
                 <h2 class="text-lg font-semibold mb-4">Deposit Sibuhar</h2>
-                <form action="/deposit-simpanan" method="POST">
-                    <input type="hidden" name="member_id" value="123" />
-                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" />
+                <form action="" method="POST" id="submit-sibuhar">
+                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" id="amount-sibuhar"/>
                     <div class="flex justify-end space-x-2">
                         <button type="button" data-modal-hide="modal-deposit-sibuhar" class="text-gray-500">Batal</button>
                         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
@@ -321,9 +319,8 @@
         <div id="modal-take-loan" class="hidden fixed top-0 left-0 z-50 w-full h-full items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-lg p-6 w-full max-w-md">
                 <h2 class="text-lg font-semibold mb-4">Take Loan</h2>
-                <form action="/deposit-simpanan" method="POST">
-                    <input type="hidden" name="member_id" value="123" />
-                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" />
+                <form action="" method="POST" id="submit-loan">
+                    <input type="number" name="amount" class="w-full mb-4 p-2 border rounded" placeholder="Jumlah" id="amount-loan"/>
                     <div class="flex justify-end space-x-2">
                         <button type="button" data-modal-hide="modal-take-loan" class="text-gray-500">Batal</button>
                         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
@@ -474,6 +471,7 @@
                 previewButtons.forEach(button => {
                     button.addEventListener("click", () => {
                         const memberId = button.getAttribute("data-id");
+                        sessionStorage.setItem('memberId', memberId);
 
                         fetch(`/preview-member/${memberId}`)
                             .then(res => {
@@ -533,5 +531,55 @@
             });
         </script>
 
+        <script>
+            const staffId = sessionStorage.getItem('staffId');
+            const memberId = sessionStorage.getItem('memberId');
+
+            async function postToRoute(route, amount) {
+                try {
+                    const response = await fetch(route, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({
+                            staff_id: staffId,
+                            member_id: memberId,
+                            amount: amount
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Gagal: ' + data.message);
+                        console.error(data);
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    alert('Terjadi kesalahan saat mengirim data.');
+                }
+            }
+
+            document.getElementById('submit-simpanan').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const amount = parseFloat(document.getElementById('amount-simpanan').value);
+                postToRoute('/staff/deposit-simpanan', amount);
+            });
+
+            document.getElementById('submit-sibuhar').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const amount = parseFloat(document.getElementById('amount-sibuhar').value);
+                postToRoute('/staff/deposit-sibuhar', amount);
+            });
+
+            document.getElementById('submit-loan').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const amount = parseFloat(document.getElementById('amount-loan').value);
+                postToRoute('/staff/take-loan', amount);
+            });
+        </script>
     @endpush
 @endsection
