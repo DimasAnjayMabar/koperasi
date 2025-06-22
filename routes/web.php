@@ -126,3 +126,7 @@ Route::post('/staff/deposit-simpanan', [StaffDashboard::class, 'updateSimpananPo
 Route::post('/staff/deposit-sibuhar', [StaffDashboard::class, 'updateSibuhar']);
 
 Route::post('/staff/take-loan', [StaffDashboard::class, 'takeLoan']);
+
+Route::post('/member/deposit-simpanan', [MemberDashboard::class, 'updateSimpananPokok']);
+
+Route::post('/member/deposit-sibuhar', [MemberDashboard::class, 'updateSibuhar']);

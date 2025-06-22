@@ -93,13 +93,8 @@
                             </button>
                         </div>
                         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            <button data-drawer-target="sibuhar" data-drawer-show="sibuhar" aria-controls="sibuhar" aria-controls="sibuhar" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                            <button data-drawer-target="sibuhar-drawer" data-drawer-show="sibuhar-drawer" aria-controls="sibuhar-drawer" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                 Deposit Sibuhar
-                            </button>
-                        </div>
-                        <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            <button data-drawer-target="loan" data-drawer-show="loan" aria-controls="loan" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                                Take Loan
                             </button>
                         </div>
                     </div>
@@ -154,7 +149,7 @@
                   <input
                     type="number"
                     name="amount"
-                    id="amount"
+                    id="amount-main-saving"
                     class="bg-white border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 block w-full p-3 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Rp. 100.000"
                     required
@@ -170,9 +165,9 @@
         </form>
 
         <!-- Sibuhar -->
-        <form action="#" id="sibuhar" class="fixed top-0 left-0 z-40 w-full h-screen max-w-md p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="createProductModal-label" aria-hidden="true">
+        <form action="#" id="sibuhar-drawer" class="fixed top-0 left-0 z-40 w-full h-screen max-w-md p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="" aria-hidden="true">
             <h5 id="" class="inline-flex items-center mb-4 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Deposit Sibuhar</h5>
-            <button type="button" data-drawer-dismiss="sibuhar" aria-controls="sibuhar" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 dark:hover:bg-gray-600 dark:hover:text-white">
+            <button type="button" data-drawer-dismiss="sibuhar-drawer" aria-controls="sibuhar-drawer" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 dark:hover:bg-gray-600 dark:hover:text-white">
                 <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                 <span class="sr-only">Close menu</span>
             </button>
@@ -182,7 +177,7 @@
                   <input
                     type="number"
                     name="amount"
-                    id="amount"
+                    id="amount-sibuhar"
                     class="bg-white border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 block w-full p-3 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Rp. 100.000"
                     required
@@ -191,35 +186,7 @@
             </div>              
             <div class="grid grid-cols-2 gap-3 mt-4">
                 <button type="submit" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Deposit</button>
-                <button type="button" data-drawer-dismiss="sibuhar" aria-controls="sibuhar" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                    Cancel
-                </button>
-            </div>
-        </form>
-
-        <!-- Loan -->
-        <form action="#" id="loan" class="fixed top-0 left-0 z-40 w-full h-screen max-w-md p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="createProductModal-label" aria-hidden="true">
-            <h5 id="" class="inline-flex items-center mb-4 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Take Loan</h5>
-            <button type="button" data-drawer-dismiss="loan" aria-controls="loan" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 dark:hover:bg-gray-600 dark:hover:text-white">
-                <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-                <span class="sr-only">Close menu</span>
-            </button>
-            <div class="grid gap-4"> <!-- Slightly increased gap for cleaner spacing -->
-                <div>
-                  <label for="amount" class="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">Enter Amount</label>
-                  <input
-                    type="number"
-                    name="amount"
-                    id="amount"
-                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 block w-full p-3 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Rp. 100.000"
-                    required
-                  >
-                </div>
-            </div>              
-            <div class="grid grid-cols-2 gap-3 mt-4">
-                <button type="submit" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Take Loan</button>
-                <button type="button" data-drawer-dismiss="loan" aria-controls="loan" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                <button type="button" data-drawer-dismiss="sibuhar-drawer" aria-controls="sibuhar-drawer" class="w-full justify-center sm:w-auto text-gray-500 inline-flex items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                     Cancel
                 </button>
             </div>
@@ -432,6 +399,53 @@
                 passwordInput.setAttribute('type', type);
                 eyeIcon.classList.toggle('text-blue-600');
             });
+        </script>
+
+        <script>
+            (async () => {
+                const { data: { user }, error } = await window.supabase.auth.getUser();
+                const memberId = user.id;
+
+                async function postToRoute(route, amount) {
+                    try {
+                        const response = await fetch(route, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({
+                                staff_id: null,
+                                member_id: memberId,
+                                amount: amount
+                            })
+                        });
+
+                        const data = await response.json();
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert('Gagal: ' + data.message);
+                            console.error(data);
+                        }
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                        alert('Terjadi kesalahan saat mengirim data.');
+                    }
+                }
+
+                document.getElementById('main-saving')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const amount = parseFloat(document.getElementById('amount-main-saving').value);
+                    postToRoute('/member/deposit-simpanan', amount);
+                });
+
+                document.getElementById('sibuhar-drawer')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const amount = parseFloat(document.getElementById('amount-sibuhar').value);
+                    postToRoute('/member/deposit-sibuhar', amount);
+                });
+            })();
         </script>
     @endpush
 @endsection
