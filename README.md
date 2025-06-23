@@ -1,3 +1,5 @@
+# BACA DULU PLEASE
+
 # SETTING ENVIRONMENT DULU YA
 1. npm install
 2. composer install
@@ -8,6 +10,9 @@
 
 # CARA MEMAKAI 
 1. setup localhost laravel (php artisan serve)
-2. database mysql local di run (atau langsung jalankan tanpa database local, sudah menggunakan cloud)
+2. database cloud, jadi langsung jalan
 3. kalau dapet verif email, pastikan buka linknya di chrome local
 4. login bisa online karena autentikasi dan database sudah menggunakan cloud
+
+# REPORTED BUG
+1. change email tidak bisa dulu
