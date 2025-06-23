@@ -93,6 +93,11 @@
                             body: JSON.stringify({ identifier: loginIdentifier })
                         });
 
+                        if (response.status === 403) {
+                            alert("Akun Anda belum aktif. Silakan hubungi admin.");
+                            return;
+                        }
+
                         const data = await response.json();
 
                         const { email } = data;

@@ -107,6 +107,8 @@ Route::get('preview-member/{id}', [StaffDashboard::class, 'previewMemberAccount'
 
 Route::post('/edit/staff', [ProfileController::class, 'updateStaff']);
 
+Route::post('/edit/member', [ProfileController::class, 'updateMember']);
+
 Route::get('/change-email-staff', function(){
     return view('admin_page.auth.change-email');
 })->name('change-email');
@@ -130,3 +132,5 @@ Route::post('/staff/take-loan', [StaffDashboard::class, 'takeLoan']);
 Route::post('/member/deposit-simpanan', [MemberDashboard::class, 'updateSimpananPokok']);
 
 Route::post('/member/deposit-sibuhar', [MemberDashboard::class, 'updateSibuhar']);
+
+Route::post('/staff/delete-member', [StaffDashboard::class, 'bulkDelete']);

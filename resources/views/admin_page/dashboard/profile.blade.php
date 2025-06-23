@@ -136,6 +136,7 @@
     </form>
 
     @push('scripts')
+        <!-- Auth Script -->
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const { data: { user }, error } = await window.supabase.auth.getUser();
@@ -227,6 +228,7 @@
             });
         </script>
 
+        <!-- Edit Staff Profile -->
         <script>
             document.getElementById('edit-staff').addEventListener('submit', async function (e) {
                 e.preventDefault();
@@ -269,6 +271,7 @@
             });
         </script>
 
+        <!-- Save Staff ID to change email (ada masalah di cloudnya, jadi tidak bisa change email dulu)-->
         <script>
             const { data: { user }, error } = await window.supabase.auth.getUser();
             const changeEmail = document.getElementById('change-email');

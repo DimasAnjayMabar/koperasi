@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\MemberAccount;
+use App\Models\MemberHistory;
 use App\Models\Staff;
 use App\Models\TransactionHistory;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as DB;
 use Illuminate\Support\Facades\Log;
@@ -195,5 +198,36 @@ class StaffDashboard extends Controller
     public function takeLoan(Request $request)
     {
         return $this->handleTransaction($request, 'loan', 'Pengajuan Pinjaman', 'loan');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('selected_ids');
+
+        if (!$ids || !is_array($ids)) {
+            return back()->with('error', 'Tidak ada anggota yang dipilih.');
+        }
+
+        DB::transaction(function () use ($ids) {
+            // Nonaktifkan member
+            Member::whereIn('supabase_id', $ids)->update(['is_active' => false]);
+            MemberAccount::whereIn('member_id', $ids)->update(['is_active' => false]);
+
+            // Tambahkan histori
+            $now = Carbon::now();
+            $historyData = [];
+
+            foreach ($ids as $id) {
+                $historyData[] = [
+                    'member_id' => $id,
+                    'description' => 'Member dinonaktifkan oleh admin.',
+                    'updated_at' => $now,
+                ];
+            }
+
+            MemberHistory::insert($historyData);
+        });
+
+        return back()->with('status', count($ids) . ' anggota berhasil dinonaktifkan dan dicatat di histori.');
     }
 }

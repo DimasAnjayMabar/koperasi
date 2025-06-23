@@ -11,6 +11,8 @@ class MemberHistory extends Model
 
     protected $table = 'members_history';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'member_id',
         'description',

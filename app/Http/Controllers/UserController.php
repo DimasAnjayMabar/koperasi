@@ -54,6 +54,10 @@ class UserController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
 
+        if (!$user->is_active) {
+            return response()->json(['error' => 'Account is inactive'], 403);
+        }
+
         return response()->json([
             'email' => $user->email,
         ]);

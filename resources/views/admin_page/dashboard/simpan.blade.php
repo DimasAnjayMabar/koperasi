@@ -130,7 +130,7 @@
                                 <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 w-4">
                                         <div class="flex items-center">
-                                            <input id="checkbox-table-search-{{ $member->supabase_id }}" type="checkbox" onclick="event.stopPropagation()" class="w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input id="checkbox-table-search-{{ $member->supabase_id }}" type="checkbox" onclick="event.stopPropagation()" class="row-checkbox w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" value="{{ $member->supabase_id }}">
                                             <label for="checkbox-table-search-{{ $member->supabase_id }}" class="sr-only">checkbox</label>
                                         </div>
                                     </td>
@@ -168,7 +168,7 @@
                                                 </svg>
                                                 Preview
                                             </button>
-                                            <button type="button" data-modal-target="delete-modal" data-modal-toggle="delete-modal" class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                            <button type="button" data-modal-target="delete-modal" data-modal-toggle="delete-modal" class="single-delete-button flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900" data-id="{{ $member->supabase_id }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                                                 </svg>
@@ -347,12 +347,17 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this member?</h3>
-                        <button data-modal-toggle="delete-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">Yes, I'm sure</button>
+                        <button data-modal-toggle="delete-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2" id="confirm-bulk-delete">Yes, I'm sure</button>
                         <button data-modal-toggle="delete-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <form id="bulk-delete-form" action="/staff/delete-member" method="POST">
+            @csrf
+            <!-- Hidden input untuk simpan ID checkbox yang dicentang -->
+        </form>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
     </div>
@@ -579,6 +584,65 @@
                 e.preventDefault();
                 const amount = parseFloat(document.getElementById('amount-loan').value);
                 postToRoute('/staff/take-loan', amount);
+            });
+        </script>
+
+        <script>
+             document.getElementById('checkbox-all').addEventListener('change', function () {
+                const isChecked = this.checked;
+                const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+
+                rowCheckboxes.forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+            });
+        </script>
+
+        <script>
+            let selectedSingleId = null;
+
+            // Tangani klik tombol delete di tiap row
+            document.querySelectorAll('.single-delete-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    selectedSingleId = this.getAttribute('data-id');
+                });
+            });
+
+            // Saat konfirmasi delete ditekan
+            document.getElementById('confirm-bulk-delete').addEventListener('click', function () {
+                const form = document.getElementById('bulk-delete-form');
+
+                // Bersihkan input sebelumnya
+                document.querySelectorAll('input[name="selected_ids[]"]').forEach(el => el.remove());
+
+                // Jika single delete, gunakan itu
+                if (selectedSingleId) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'selected_ids[]';
+                    input.value = selectedSingleId;
+                    form.appendChild(input);
+
+                    selectedSingleId = null; // reset supaya tidak ke-trigger terus
+                } else {
+                    // Mode bulk: ambil semua checkbox yang dicentang
+                    const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+
+                    if (checkboxes.length === 0) {
+                        alert('Tidak ada anggota yang dipilih.');
+                        return;
+                    }
+
+                    checkboxes.forEach(cb => {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'selected_ids[]';
+                        input.value = cb.value;
+                        form.appendChild(input);
+                    });
+                }
+
+                form.submit();
             });
         </script>
     @endpush

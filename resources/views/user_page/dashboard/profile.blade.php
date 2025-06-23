@@ -143,6 +143,7 @@
     </form>
 
     @push('scripts')
+        <!-- Auth Script -->
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const { data: { user }, error } = await window.supabase.auth.getUser();
@@ -203,6 +204,7 @@
         });
         </script>
 
+        <!-- Sidebar Script -->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const links = document.querySelectorAll('[data-table]');
@@ -230,6 +232,49 @@
                         overlay.classList.add('hidden');
                     }
                 });
+            });
+        </script>
+
+        <!-- Edit Member Profile -->
+        <script>
+            document.getElementById('edit-member').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                // Get current user and form data
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                if (authError) {
+                    console.error("Auth error:", authError);
+                    alert("Failed to verify user. Please reload and try again.");
+                    return;
+                }
+                const memberId = user.id;
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const profileInput = document.getElementById('profile');
+                const profile = profileInput.files?.[0] ?? null;
+
+                const formData = new FormData(this);
+                formData.append('supabase_id', memberId);
+
+                try {
+                    const response = await fetch('/edit/member', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+
+                    const result = await response.json();
+                    if(response.ok){
+                        window.location.reload();
+                    }else{
+                        alert("Update failed: " + result.message);
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                    alert("Error: " + err.message);
+                }
             });
         </script>
     @endpush
