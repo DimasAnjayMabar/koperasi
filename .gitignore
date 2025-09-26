@@ -21,3 +21,5 @@ yarn-error.log
 /.vscode
 /.zed
 client_secret_959587570519-nr85gdqsjfrg9hpocrl0nhsmlet1076g.apps.googleusercontent.com.json
+
+.vercel
