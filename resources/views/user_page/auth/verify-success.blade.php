@@ -44,7 +44,7 @@
 
                 if (error || !user) {
                     alert('Verification failed. Please try logging in.');
-                    window.location.href = '/member';
+                    window.location.href = '/';
                     return;
                 }
 
@@ -64,7 +64,7 @@
                         body: JSON.stringify(formData)
                     });
                     // Step 3: Redirect to dashboard after registration is complete
-                    window.location.href = '/member';
+                    window.location.href = '/';
                     await supabase.auth.signOut();
                 } catch (err) {
                     console.error('Error:', err);

@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\MemberAccount;
 use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MemberDashboard extends Controller
@@ -130,5 +131,23 @@ class MemberDashboard extends Controller
     public function updateSibuhar(Request $request)
     {
         return $this->handleTransaction($request, 'sibuhar', 'Deposit Sibuhar', 'deposit');
+    }
+
+    public function updateEmailMember(Request $request)
+    {
+        $request->validate([
+            'supabase_id' => 'required|string',
+            'email' => 'required|email'
+        ]);
+
+        $updated = DB::table('members')
+            ->where('supabase_id', $request->supabase_id)
+            ->update(['email' => $request->email]);
+
+        if (!$updated) {
+            return response()->json(['message' => 'User not found or not updated'], 404);
+        }
+
+        return response()->json(['message' => 'Email updated successfully']);
     }
 }

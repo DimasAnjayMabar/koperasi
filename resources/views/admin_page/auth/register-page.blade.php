@@ -147,7 +147,7 @@
                                     name,
                                     phone,
                                 },
-                                emailRedirectTo : "{{ route('staff-verify-success') }}"
+                                emailRedirectTo : window.location.origin + "/staff/verify-success"
                             }
                         });
 

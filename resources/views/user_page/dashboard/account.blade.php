@@ -244,7 +244,7 @@
                 const { data: { user }, error } = await window.supabase.auth.getUser();
 
                 if (!user || error) {
-                    window.location.href = '/member';
+                    window.location.href = '/';
                     return;
                 }
 
@@ -331,7 +331,7 @@
                         event.preventDefault();
                         await window.supabase.auth.signOut();
                         sessionStorage.removeItem('loggedIn');
-                        window.location.href = '/member';
+                        window.location.href = '/';
                     });
                 }
             });

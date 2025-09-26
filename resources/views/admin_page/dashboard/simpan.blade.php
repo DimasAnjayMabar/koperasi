@@ -126,7 +126,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($memberAccounts as $member)
+                                @forelse($memberAccounts as $member)
                                 <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 w-4">
                                         <div class="flex items-center">
@@ -177,11 +177,15 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="px-4 py-3 text-center">No member registered yet</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
-                    <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
+                    {{-- <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                             Showing
                             <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
@@ -221,7 +225,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </nav>
+                    </nav> --}}
                 </div>
             </div>
         </section>

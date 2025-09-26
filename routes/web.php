@@ -25,7 +25,7 @@ Route::get('/staff/verify-email', function() {
 
 Route::get('/staff/verify-success', function() {
     return view('admin_page.auth.verify-success');
-})->name('staff-verify-success');
+});
 
 Route::post('/register/new-staff', [RegisterController::class, 'registerStaff']);
 
@@ -67,7 +67,7 @@ Route::get('/member/login', function(){
     return view ('user_page.auth.login-page');
 })->name('member-login');
 
-Route::get('/member', function(){
+Route::get('/', function(){
     return view('user_page.welcome');
 })->name('member');
 
@@ -87,7 +87,7 @@ Route::get('member/dashboard/account', function(){
     return view('user_page.dashboard.account');
 })->name('account');
 
-Route::get('member/dashoboard/profile', function(){
+Route::get('member/dashboard/profile', function(){
     return view('user_page.dashboard.profile');
 })->name('member-profile');
 
@@ -108,10 +108,6 @@ Route::get('preview-member/{id}', [StaffDashboard::class, 'previewMemberAccount'
 Route::post('/edit/staff', [ProfileController::class, 'updateStaff']);
 
 Route::post('/edit/member', [ProfileController::class, 'updateMember']);
-
-Route::get('/change-email-staff', function(){
-    return view('admin_page.auth.change-email');
-})->name('change-email');
 
 Route::get('/change-email-verification', function(){
     return view('admin_page.auth.change-email-verification');
@@ -134,3 +130,17 @@ Route::post('/member/deposit-simpanan', [MemberDashboard::class, 'updateSimpanan
 Route::post('/member/deposit-sibuhar', [MemberDashboard::class, 'updateSibuhar']);
 
 Route::post('/staff/delete-member', [StaffDashboard::class, 'bulkDelete']);
+
+Route::get('/member/change-email', function () {
+    return view('user_page.auth.change-email');
+});
+
+Route::get('/member/email-updated', function(){
+    return view('user_page.auth.email-updated');
+});
+
+Route::get('/member/change-email', function () {
+    return view('user_page.auth.change-email');
+})->name('staff-change-email');
+
+Route::post('/member/update-email', [MemberDashboard::class, 'updateEmailMember']);

@@ -12,7 +12,7 @@
                     Verify Your Email Address
                 </h1>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                    We've sent a verification link to your email. Didn't receive it?
+                    Email sent to user, make sure to verify them
                 </p>
 
                 <div id="verification-status" class="hidden mt-4 text-sm"></div>
